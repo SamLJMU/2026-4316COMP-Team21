@@ -80,7 +80,7 @@ def move():
 
 # Keyboard bindings
 wn.listen()
-wn.onkeypress(go_up, "w")
+wn.onkeypress(go_up, "w") or wn.onkeypress(go_up, "up")
 wn.onkeypress(go_down, "s")
 wn.onkeypress(go_left, "a")
 wn.onkeypress(go_right, "d")
