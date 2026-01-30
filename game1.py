@@ -3,8 +3,8 @@ import random
 
 # define range and max_attempts
 lower_bound = 1
-upper_bound = 100
-max_attempts = 10
+upper_bound = 1000
+max_attempts = 1000
 
 # generate the secret number
 secret_number = random.randint(lower_bound, upper_bound)
