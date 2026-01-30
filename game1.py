@@ -3,7 +3,7 @@ import random
 
 # define range and max_attempts
 lower_bound = 1
-upper_bound = 1000
+upper_bound = 100
 max_attempts = 10
 
 # generate the secret number
