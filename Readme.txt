@@ -3,7 +3,8 @@ in order to gain useful insights into weather patterns across the globe.
 
 The requirements are:
 
-1) An easy to use, user-friendly menu that allows users to operate the application
+1) An easy to use, user-friendly menu that allows users to operate the application:
+    a) Add setting to display Metric or Imperial units by default
 2) Ability to accept a variety of user inputs without errors (error validation):
     a) Allow user to input paramaters to filter results
 3) Outputs:
