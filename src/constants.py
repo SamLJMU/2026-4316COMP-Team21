@@ -1,0 +1,5 @@
+class Constants:
+    PLACEHOLDER_1 = 1
+    PLACEHOLDER_2 = 2
+    PLACEHOLDER_3 = 3
+    PLACEHOLDER_4 = 4
