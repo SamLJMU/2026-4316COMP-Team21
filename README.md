@@ -31,18 +31,18 @@ The requirements are:
 
 # File Structure
 
-__dataset__
+__> dataset__
 
 Contains the dataset file(s) that will be loaded into the program for analysis
 
-__src__
+__> src__
 
 Contains all the source code (i.e classes, functions, etc...)
 
-__src/classes__
+__> src/classes__
 
 Contains all files that declare and implement classes
 
-__src/main.py__
+__> src/main.py__
 
 Is the main entry point of the program
