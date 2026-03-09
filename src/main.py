@@ -9,20 +9,12 @@ def main():
 
 def display_main_menu():
     
-    menu_option = ""
+    print("Weather Menu:")
+    print("Option 1: [ADD LATER] ")
+    print("Option 2: [ADD LATER] ")
+    print("Option 3: [ADD LATER] ")
 
-    while menu_option not in ["1","2","3",]:
-        print("Weather Menu:")
-        print("Option 1: [ADD LATER] ")
-        print("Option 2: [ADD LATER] ")
-        print("Option 3: [ADD LATER] ")
-        menu_option = input("Choose your option: ")
-
-        if menu_option not in ["1","2","3",]:
-            print("Invalid choice - Type your option again: ")
-
-    
-    selectedIndex = getIntegerRange("", 1, 4)
+    selectedIndex = getIntegerRange("Choose your option: ", 1, 4)
 
     match selectedIndex:
 
