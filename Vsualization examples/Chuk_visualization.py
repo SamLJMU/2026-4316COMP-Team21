@@ -10,8 +10,9 @@ humidity_data = {
 
 fig, ax = plt.subplots(figsize=(12, 6))
 
-for country, values in humidity_data.items():
-    ax.plot(months, values, marker='o', label=country)
+ax.plot(months, [60, 62, 65, 70, 75, 80, 85, 83, 78, 72, 65, 61], marker='o', label="Nigeria")
+ax.plot(months, [80, 78, 72, 68, 65, 62, 63, 65, 68, 73, 78, 81], marker='o', label="UK")
+ax.plot(months, [85, 84, 83, 80, 78, 75, 73, 74, 76, 79, 82, 85], marker='o', label="Brazil")
 
 ax.set_xlabel("Month")
 ax.set_ylabel("Humidity (%)")
