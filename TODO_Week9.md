@@ -24,7 +24,7 @@ function avg\_temp\_by\_timezone() {
 
 Example console output for a "question" function:
 
-
+``` bash
 \> Filters
 
 1 - Continent
@@ -47,7 +47,4 @@ Example console output for a "question" function:
 
 \> Show graph via matplotlib
 
-
-
-
-
+```

@@ -2,12 +2,12 @@ from input import getIntegerRange
 from classes.file_io import FileIO
 from classes.constants import Constants
 from visualisations.matthieu.visualisation import question_example
-#from visualisations.riccardo.visualisation_riccardo import daylight_hours
+from visualisations.riccardo.visualisation_riccardo import daylight_hours
 
 def main():
     FileIO.read_file()
     print(FileIO.dataset_df.dtypes)
-    #daylight_hours()
+    daylight_hours()
     question_example()
     display_main_menu()
 

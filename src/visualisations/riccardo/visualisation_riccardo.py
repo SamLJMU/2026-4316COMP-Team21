@@ -3,7 +3,7 @@ import matplotlib.pyplot as mpl
 
 def daylight_hours():
     # Get dataset
-    df = FileIO.dataset_df["country", "last_updated", "sunrise", "sunset"]
+    df = FileIO.dataset_df[["country", "last_updated", "sunrise", "sunset"]]
 
     # prompt user for name of country (filter), validate input
     # print("Filter")
@@ -11,7 +11,7 @@ def daylight_hours():
     country = "Italy"
     while True:
         country_selection = input("Choose a country, make sure to type the name correctly!\n")
-        if country_selection.lower() in df["country"].lower().values:
+        if country_selection.capitalize() in df["country"].values:
             country = country_selection
             print(country)
             break
