@@ -29,6 +29,20 @@ The requirements are:
 - Air quality by country
 - Sunrise and sunset time by country/latitude
 
+## Accessing dataset within program
+
+- Use the `FileIO` static class from `file_io.py` and get the `dataset_df` property.
+
+``` python
+
+    # Dataframe of dataset
+    df = FileIO.dataset_df
+
+    # Getting countries and temperature dataframe
+    df = df[["countries", "temperature_celsius"]]
+
+```
+
 # File Structure
 
 __> dataset__

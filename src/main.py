@@ -1,10 +1,13 @@
 from input import getIntegerRange
-
+from classes.file_io import FileIO
 from classes.constants import Constants
+from visualisations.matthieu.visualisation import question_example
 
 
 def main():
-
+    FileIO.read_file()
+    print(FileIO.dataset_df.columns)
+    question_example()
     display_main_menu()
 
 def display_main_menu():

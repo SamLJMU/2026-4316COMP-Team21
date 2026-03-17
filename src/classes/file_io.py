@@ -1,4 +1,8 @@
+import pandas as pd
+
 class FileIO:
+    # Private dataset static variable can either be None or a DataFrame object
+    dataset_df: None | pd.DataFrame = None
+
     def read_file():
-        # TODO - Read from the dataset directory and load data via file streaming to prevent memory overflow
-        pass
+        FileIO.dataset_df = pd.read_csv("dataset/GlobalWeatherRepository.csv")
