@@ -1,9 +1,9 @@
 from classes.file_io import FileIO
 import matplotlib.pyplot as mpl
 
-def question_example():
+def air_quality_over_time():
     # Get dataset
-    df = FileIO.dataset_df[["country", "last_updated", "temperature_celsius"]]
+    df = FileIO.dataset_df[["country", "last_updated", "air_quality_PM2.5"]]
 
     # Ask for filter
     # print("Filter")
@@ -13,7 +13,7 @@ def question_example():
     # process data per filter
     # TODO
     df = df[df["country"] == country]
-    df = df.loc[(df["last_updated"] > "2025-1-1")]
+    df = df.loc[(df["last_updated"] >= "2026-01-01")]
 
     # Ask for sorting
     # TODO
@@ -26,7 +26,6 @@ def question_example():
     # TODO df.sort_values()
 
     # Visualise via matplotlib
-    # TODO filter or group data, else visualization will slow program
     fig, ax = mpl.subplots()
-    ax.plot(df["last_updated"], df["temperature_celsius"])
+    ax.plot(df["last_updated"], df["air_quality_PM2.5"])
     mpl.show()

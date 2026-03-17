@@ -1,32 +1,30 @@
 from input import getIntegerRange
 from classes.file_io import FileIO
 from classes.constants import Constants
-from visualisations.matthieu.visualisation import question_example
+from visualisations.matthieu.visualisation import air_quality_over_time
 from visualisations.riccardo.visualisation_riccardo import daylight_hours
 
 def main():
     FileIO.read_file()
-    print(FileIO.dataset_df.dtypes)
-    daylight_hours()
-    question_example()
+    # print(FileIO.dataset_df.dtypes)
     display_main_menu()
 
 def display_main_menu():
     
     print("Weather Menu:")
-    print("Option 1: [ADD LATER] ")
-    print("Option 2: [ADD LATER] ")
+    print(f"{Constants.DAYLIGHT_HOURS}: Daylight Hours by Country over Time")
+    print(f"{Constants.AIR_QUALITY}:  Air Quality by Country over Time")
     print("Option 3: [ADD LATER] ")
 
     selectedIndex = getIntegerRange("Choose your option: ", 1, 4)
 
     match selectedIndex:
 
-        case Constants.PLACEHOLDER_1:
-            print("1")
+        case Constants.DAYLIGHT_HOURS:
+            daylight_hours()
 
-        case Constants.PLACEHOLDER_2:
-            print("2")
+        case Constants.AIR_QUALITY:
+            air_quality_over_time()
 
         case Constants.PLACEHOLDER_3:
             print("3")
