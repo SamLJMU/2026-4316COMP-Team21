@@ -6,7 +6,7 @@ from visualisations.matthieu.visualisation import question_example
 
 def main():
     FileIO.read_file()
-    print(FileIO.dataset_df.columns)
+    print(FileIO.dataset_df.dtypes)
     question_example()
     display_main_menu()
 
