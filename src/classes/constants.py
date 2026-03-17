@@ -1,5 +1,3 @@
-class Constants:
+class MenuOptions:
     DAYLIGHT_HOURS = 1
     AIR_QUALITY = 2
-    PLACEHOLDER_3 = 3
-    PLACEHOLDER_4 = 4
