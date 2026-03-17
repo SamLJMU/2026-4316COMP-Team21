@@ -25,26 +25,27 @@ function avg\_temp\_by\_timezone() {
 Example console output for a "question" function:
 
 
-> Filters
+\> Filters
 
 1 - Continent
 
 2 - Year
 
+...user input...
 
-
-> Sort
+\> Sort
 
 1 - Country name
 
 2 - Temperature
 
+...user input...
 
+\> Asc or Desc
 
-> Asc or Desc
+...user input...
 
-
-> Show graph via matplotlib
+\> Show graph via matplotlib
 
 
 
