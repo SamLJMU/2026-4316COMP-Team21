@@ -6,7 +6,7 @@ from visualisations.riccardo.visualisation_riccardo import daylight_hours
 
 def main():
     FileIO.read_file()
-    # print(FileIO.dataset_df.dtypes)
+    print(FileIO.dataset_df.dtypes)
     display_main_menu()
 
 def display_main_menu():
