@@ -60,3 +60,39 @@ Contains all files that declare and implement classes
 __> src/main.py__
 
 Is the main entry point of the program
+
+# Python Modules Explained
+
+> With the exception of main.py and files in src/visualisations, you are not expected to work on the other source files, this is mainly to make it easier to understand their uses.
+
+- __main.py__
+    
+    Entry point of the program. Should run this script for the application to start.
+
+- __input.py__
+    
+    Utility module used for input validation
+
+### Classes
+
+- __file_io.py__
+    
+    Defines a class with a static method used to load the dataset and access it via the `dataset_df` static variable.
+
+    i.e : `FileIO.dataset_df`
+
+- __constants.py__
+
+    Defines constants, notable the `MenuOptions` class with static properties to make menu options more manageable and readable
+
+    i.e of access: `MenuOptions.DAYLIGHT_HOURS` is just a constant for `1` (last updated: 20/03/2026)
+
+### Visualisations
+
+Collection of folders for each team member.
+
+Each of those should contain at least __1 file__ declaring a function that fetches data from the `dataset_df` DataFrame and produce a graph via `matplotlib`
+
+### Additional Notes
+
+> Every module can be imported by specifying their directory followed by the file name. So if we were to import the `FileIO` class into a source file, `from classes.file_io import FileIO` can be written in the source file where we want to use it. As you can see `classes` is the directory and `file_io` is the file name, hence `classes.file_io` importing the class `FileIO`.
