@@ -57,6 +57,10 @@ __> src/classes__
 
 Contains all files that declare and implement classes
 
+__> src/visualisations__
+
+Contains all the visualizations and data processing source code for the graphs of each team member
+
 __> src/main.py__
 
 Is the main entry point of the program
