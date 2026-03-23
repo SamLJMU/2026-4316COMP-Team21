@@ -1,0 +1,10 @@
+import matplotlib.pyplot as plt
+
+temperature_values = [-1, 2, -2, 5, 8, 12, 15, 14, 11, 7, 5, 3]
+months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+fig, ax = plt.subplots()
+
+ax.plot(months, temperature_values)
+
+plt.show()

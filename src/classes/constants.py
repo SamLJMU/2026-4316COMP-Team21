@@ -2,6 +2,8 @@ class MenuOptions:
     EXIT = 0
     DAYLIGHT_HOURS = 1
     AIR_QUALITY = 2
+    AIR_QUALITY_BY_COUNTRY = 3
+    AVG_TEMP_BY_COUNTRY = 4
 
 class ANSI_Colors:
     BLUE = '\033[94m'
