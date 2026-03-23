@@ -21,7 +21,7 @@ def display_main_menu():
         # print("Option 4: [ADD LATER]") 
         print(f"\n{MenuOptions.EXIT}: Exit")
 
-        selectedIndex = getIntegerRange("\nChoose your option: ", 0, 3)
+        selectedIndex = getIntegerRange("\nChoose your option: \n================== > ", 0, 3)
 
         match selectedIndex:
 
