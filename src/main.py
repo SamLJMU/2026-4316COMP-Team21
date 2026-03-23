@@ -13,7 +13,7 @@ def main():
 
 def display_main_menu():
     while True:
-        print("+" + "-"*15 + "+")
+        print("\n+" + "-"*15 + "+")
         print("| Weather Menu: |")
         print("+" + "-"*15 + "+")
         print(f"\n{MenuOptions.DAYLIGHT_HOURS}: Daylight Hours by Country over Time")
