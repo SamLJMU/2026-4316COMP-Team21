@@ -3,3 +3,4 @@ class MenuOptions:
     DAYLIGHT_HOURS = 1
     AIR_QUALITY = 2
     AIR_QUALITY_BY_COUNTRY = 3
+    AVG_TEMP_BY_COUNTRY = 4
