@@ -174,3 +174,4 @@ if selected_countries:
     print(f"✅ Plot saved as air_quality_plot.png for {', '.join(selected_countries)} - {index_name}")
 else:
     print("No countries selected.")
+    
