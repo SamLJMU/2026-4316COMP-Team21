@@ -33,7 +33,6 @@ def display_main_menu():
             case MenuOptions.DAYLIGHT_HOURS:
                 daylight_hours()
 
-
             case MenuOptions.AIR_QUALITY:
                 air_quality_over_time()
                 

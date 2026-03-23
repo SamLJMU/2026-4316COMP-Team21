@@ -61,6 +61,10 @@ __> src/visualisations__
 
 Contains all the visualizations and data processing source code for the graphs of each team member
 
+__> src/utility__
+
+Contains all the functions that are not core functionalities of the program, but used to carry out specific or repetitive tasks
+
 __> src/main.py__
 
 Is the main entry point of the program
@@ -90,6 +94,18 @@ Is the main entry point of the program
     Defines constants, notable the `MenuOptions` class with static properties to make menu options more manageable and readable
 
     i.e of access: `MenuOptions.DAYLIGHT_HOURS` is just a constant for `1` (last updated: 20/03/2026)
+
+### Utilities
+
+- __console_print.py__
+
+    Defines functions to print specific kind of output, such as information, warning, success, etc... in a colored manner.
+
+- __row_transformations.py__
+
+    Defines functions that can be applied to a specific column(s) to convert or compute values.
+
+    Think of them as excel formulas
 
 ### Visualisations
 
