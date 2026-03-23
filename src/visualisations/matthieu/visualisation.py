@@ -3,7 +3,9 @@ import matplotlib.pyplot as mpl
 
 def air_quality_over_time():
     # Get dataset
-    df = FileIO.dataset_df[["country", "last_updated", "air_quality_PM2.5"]]
+    df = FileIO.dataset_df[["country", "last_updated", "air_quality_PM2.5", "sunrise", "sunrise_time"]]
+
+    print(df.head())
 
     # Ask for filter
     # print("Filter")

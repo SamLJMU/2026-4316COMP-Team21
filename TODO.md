@@ -4,6 +4,7 @@
     __i.e: ForecastMenuOption = 1__
 - Each team member should implement their questions/queries for visualisations inside their folders in the `src/visualisations` folder
     - The implementation should at least provide options for user to choose from (filtering, sorting, etc...) to perform on the dataset `dataframe` and then call matplotlib to show the data in a graph
+- Rename the repository `2026-4316COMP-Team21` to fit the coursework guidelines
 
 ## Tasks Done
 

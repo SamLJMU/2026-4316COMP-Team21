@@ -1,4 +1,5 @@
 import pandas as pd
+from utility.row_transformations import string_time_to_minutes
 
 class FileIO:
     # Private dataset static variable can either be None or a DataFrame object
@@ -6,4 +7,6 @@ class FileIO:
 
     def read_file():
         FileIO.dataset_df = pd.read_csv("dataset/GlobalWeatherRepository.csv")
-        FileIO.dataset_df["last_updated_epoch"] = pd.to_datetime(FileIO.dataset_df["last_updated_epoch"], unit='s')
+        FileIO.dataset_df["last_updated_date_time"] = pd.to_datetime(FileIO.dataset_df["last_updated_epoch"], unit='s')
+        FileIO.dataset_df["sunrise_time"] = FileIO.dataset_df["sunrise"].apply(string_time_to_minutes)
+        FileIO.dataset_df["sunset_time"] = FileIO.dataset_df["sunset"].apply(string_time_to_minutes)
