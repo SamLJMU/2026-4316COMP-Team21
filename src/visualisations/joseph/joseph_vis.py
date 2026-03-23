@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 
-def avg_temp_by_country_over_time():
+def avg_temp_by_timezone():
     base = os.path.dirname(__file__)
     csv_path = os.path.join(base, '..', '..', 'dataset', 'GlobalWeatherRepository.csv')
     csv_path = os.path.normpath(csv_path)
@@ -51,3 +51,13 @@ def avg_temp_by_country_over_time():
 
     df = df[(df['date'].dt.date >= start_date) & (df['date'].dt.date <= end_date)]
     print(f"Using date range: {start_date} to {end_date} (rows: {len(df)})")
+
+    # Available temperature units
+    available_units = [
+        'air_quality_Carbon_Monoxide',
+        'air_quality_Ozone',
+        'air_quality_Nitrogen_dioxide',
+        'air_quality_Sulphur_dioxide',
+        'air_quality_PM2.5',
+        'air_quality_PM10'
+    ]

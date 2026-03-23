@@ -4,7 +4,7 @@ from classes.constants import MenuOptions
 from visualisations.matthieu.visualisation import air_quality_over_time # might wanna update the name of this function to be more specific to the visualisation it creates
 from visualisations.riccardo.visualisation_riccardo import daylight_hours
 from visualisations.guinness.guinness_vis import air_quality_by_country_over_time
-from visualisations.joseph.joseph_vis import avg_temp_by_country_over_time
+from visualisations.joseph.joseph_vis import avg_temp_by_timezone
 
 def main():
     FileIO.read_file()
@@ -19,7 +19,7 @@ def display_main_menu():
         print(f"\n{MenuOptions.DAYLIGHT_HOURS}: Daylight Hours by Country over Time")
         print(f"{MenuOptions.AIR_QUALITY}: Air Quality vs Temperature over Time")
         print(f"{MenuOptions.AIR_QUALITY_BY_COUNTRY}: Air Quality by Country over Time")
-        print(f"{MenuOptions.AVG_TEMP_BY_COUNTRY}: Average Temparature by Country over Time")
+        print(f"{MenuOptions.AVG_TEMP_BY_TIMEZONE}: Average Temperature by Timezone over Time")
         # print("Option 5: [ADD LATER]") 
         print(f"\n{MenuOptions.EXIT}: Exit")
 
@@ -36,8 +36,8 @@ def display_main_menu():
             case MenuOptions.AIR_QUALITY_BY_COUNTRY:
                 air_quality_by_country_over_time()
 
-            case MenuOptions.AVG_TEMP_BY_COUNTRY:
-                avg_temp_by_country_over_time()
+            case MenuOptions.AVG_TEMP_BY_TIMEZONE:
+                avg_temp_by_timezone()
 
             case MenuOptions.EXIT:
                 print("Exiting program...")
