@@ -2,8 +2,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 
-# def average_temperature_x_for_timezone_y():
-    
+def avg_temp_by_country_over_time():
+    # Calculate the average temperature for a specific timezone
+    pass
+
 base = os.path.dirname(__file__)
 csv_path = os.path.join(base, '..', '..', 'dataset', 'GlobalWeatherRepository.csv')
 csv_path = os.path.normpath(csv_path)
