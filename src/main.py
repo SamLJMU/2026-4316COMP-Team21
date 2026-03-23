@@ -7,7 +7,6 @@ from visualisations.guinness.guinness_vis import air_quality_by_country_over_tim
 from visualisations.joseph.joseph_vis import avg_temp_by_country_over_time
 from classes.constants import ANSI_Colors
 from utility.console_print import clear_console
-from visualisations.joseph.joseph_vis import avg_temp_by_timezone
 
 def main():
     FileIO.read_file()
@@ -24,9 +23,8 @@ def display_main_menu():
         print(f"{MenuOptions.DAYLIGHT_HOURS}: Daylight Hours by Country over Time")
         print(f"{MenuOptions.AIR_QUALITY}: Air Quality by Temperature over Time")
         print(f"{MenuOptions.AIR_QUALITY_BY_COUNTRY}: Air Quality by Country over Time")
-        print(f"{MenuOptions.AVG_TEMP_BY_COUNTRY}: Average Team by Country over Time")
-        print(f"{MenuOptions.AVG_TEMP_BY_TIMEZONE}: Average Temperature by Timezone over Time")
-        print(f"\n{MenuOptions.EXIT}: Exit")
+        print(f"{MenuOptions.AVG_TEMP_BY_COUNTRY}: Average Temperature by Timezone over Time")
+        print(f"{MenuOptions.EXIT}: Exit")
 
         selectedIndex = getIntegerRange("Choose your option: ", 0, 4)
 
@@ -42,8 +40,8 @@ def display_main_menu():
             case MenuOptions.AIR_QUALITY_BY_COUNTRY:
                 air_quality_by_country_over_time()
 
-            case MenuOptions.AVG_TEMP_BY_TIMEZONE:
-                avg_temp_by_timezone()
+            case MenuOptions.AVG_TEMP_BY_COUNTRY:
+                avg_temp_by_country_over_time()
 
             case MenuOptions.EXIT:
                 running = False

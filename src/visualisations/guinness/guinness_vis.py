@@ -4,7 +4,6 @@ from classes.file_io import FileIO
 
 def air_quality_by_country_over_time():
     df = FileIO.dataset_df
-    df.columns = df.columns.str.strip()  # Remove leading/trailing spaces from column names
     # Normalize text columns that will be used for filtering
     if 'country' in df.columns:
         df['country'] = df['country'].astype(str).str.strip()
