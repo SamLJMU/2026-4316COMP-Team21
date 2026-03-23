@@ -21,10 +21,12 @@ def display_main_menu():
         menu_name = ANSI_Colors.color_str("-- Weather Menu --", ANSI_Colors.GREEN)
         print(menu_name)
         print(f"{MenuOptions.DAYLIGHT_HOURS}: Daylight Hours by Country over Time")
-        print(f"{MenuOptions.AIR_QUALITY}: Air Quality by Country over Time")
+        print(f"{MenuOptions.AIR_QUALITY}: Air Quality by Temperature over Time")
+        print(f"{MenuOptions.AIR_QUALITY_BY_COUNTRY}: Air Quality by Country over Time")
+        print(f"{MenuOptions.AVG_TEMP_BY_COUNTRY}: Average Team by Country over Time")
         print(f"{MenuOptions.EXIT}: Exit")
 
-        selectedIndex = getIntegerRange("\nChoose your option: \n================== > ", 0, 4)
+        selectedIndex = getIntegerRange("Choose your option: ", 0, 4)
 
         match selectedIndex:
 
