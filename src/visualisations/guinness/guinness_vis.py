@@ -1,13 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import os
+from classes.file_io import FileIO
 
 def air_quality_by_country_over_time():
-    base = os.path.dirname(__file__)
-    csv_path = os.path.join(base, '..', '..', 'dataset', 'GlobalWeatherRepository.csv')
-    csv_path = os.path.normpath(csv_path)
-    df = pd.read_csv(csv_path, engine='python')
-    df.columns = df.columns.str.strip()  # Remove leading/trailing spaces from column names
+    df = FileIO.dataset_df
     # Normalize text columns that will be used for filtering
     if 'country' in df.columns:
         df['country'] = df['country'].astype(str).str.strip()
