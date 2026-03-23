@@ -71,7 +71,7 @@ def air_quality_by_country_over_time():
         print(f"{i}. {display_name}")
 
     while True:
-        choice = input("Select an index by number or name: ").strip()
+        choice = input("\nSelect an index by number or name: ").strip()
         if choice.isdigit() and 1 <= int(choice) <= len(available_indices):
             selected_index = available_indices[int(choice) - 1]
             break
@@ -108,10 +108,10 @@ def air_quality_by_country_over_time():
         choice_lower = choice.lower()
     
         if choice_lower == 'help':
-            print("Enter 'next'/'prev' to browse pages, 'done' to finish, page number (1-10) to select by position, or country name to add/remove from selection.")
+            print("\nEnter 'next'/'prev' to browse pages, 'done' to finish, page number (1-10) to select by position, or country name to add/remove from selection.")
             continue
         if choice_lower == 'help':
-            print("Enter 'next'/'prev' to browse, 'done' to finish, page number (1-10) or country name.")
+            print("\nEnter 'next'/'prev' to browse, 'done' to finish, page number (1-10) or country name.")
             continue
         if choice_lower == 'next':
             current_page = (current_page + 1) % total_pages
@@ -127,7 +127,7 @@ def air_quality_by_country_over_time():
         elif choice_lower in [c.lower() for c in available_countries]:
             exact_country = next(c for c in available_countries if c.lower() == choice_lower)
         elif choice == '':
-            print("Invalid choice. Try again. Please enter a country name, page number, or command (next/prev/done/help).")
+            print("\nInvalid choice. Try again. Please enter a country name, page number, or command (next/prev/done/help).")
             continue
         else:
             similar = [c for c in available_countries if choice_lower in c.lower()]
@@ -140,15 +140,15 @@ def air_quality_by_country_over_time():
                     selected_countries.append(exact_country)
                     print(f"Added {exact_country} (auto-match)")
             else:
-                print(f"Invalid choice. Try again. Similar countries: {similar[:10]}")
+                print(f"\nInvalid choice. Try again. Similar countries: {similar[:10]}")
             continue
 
         if exact_country in selected_countries:
             selected_countries.remove(exact_country)
-            print(f"Removed {exact_country}")
+            print(f"\nRemoved {exact_country}")
         else:
             selected_countries.append(exact_country)
-            print(f"Added {exact_country}")
+            print(f"\nAdded {exact_country}")
 
     # Convert selected index column to numeric (coerce non-numeric values)
     df[selected_index] = pd.to_numeric(df[selected_index], errors='coerce')
@@ -163,7 +163,7 @@ def air_quality_by_country_over_time():
                 if not country_df.empty:
                     plt.plot(country_df['date'], country_df[selected_index], label=country)
                 else:
-                    print(f"No numeric data for {country} in {selected_index}")
+                    print(f"\nNo numeric data for {country} in {selected_index}")
     
         index_name = selected_index.replace('air_quality_', '').replace('_', ' ')
         plt.title(f'{index_name} Over Time - Selected Countries')
@@ -174,4 +174,4 @@ def air_quality_by_country_over_time():
         plt.savefig('air_quality_plot.png')
         print(f"✅ Plot saved as air_quality_plot.png for {', '.join(selected_countries)} - {index_name}")
     else:
-        print("No countries selected.")
+        print("\nNo countries selected.")
