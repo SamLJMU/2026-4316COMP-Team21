@@ -9,7 +9,7 @@ def air_quality_by_country_over_time():
         df['country'] = df['country'].astype(str).str.strip()
 
     df = df.dropna(subset=['last_updated'])
-    df['date'] = pd.to_datetime(df['last_updated'], dayfirst=True, errors='coerce')
+    df['date'] = pd.to_datetime(df['last_updated'], dayfirst=False, errors='coerce')
     df = df.dropna(subset=['date'])
 
     # date range selection
@@ -67,7 +67,7 @@ def air_quality_by_country_over_time():
         print(f"{i}. {display_name}")
 
     while True:
-        choice = input("\nSelect an index by number or name: ").strip()
+        choice = input("\nSelect an index by list number: ").strip()
         if choice.isdigit() and 1 <= int(choice) <= len(available_indices):
             selected_index = available_indices[int(choice) - 1]
             break
@@ -169,5 +169,6 @@ def air_quality_by_country_over_time():
         plt.tight_layout()
         plt.savefig('air_quality_plot.png')
         print(f"✅ Plot saved as air_quality_plot.png for {', '.join(selected_countries)} - {index_name}")
+        plt.show()
     else:
         print("\nNo countries selected.")

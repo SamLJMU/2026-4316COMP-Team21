@@ -5,7 +5,7 @@ from visualisations.matthieu.visualisation import air_quality_over_time # might 
 from visualisations.riccardo.visualisation_riccardo import daylight_hours
 from visualisations.guinness.guinness_vis import air_quality_by_country_over_time
 from visualisations.joseph.joseph_vis import avg_temp_by_country_over_time
-from classes.constants import ANSI_Colors
+from classes.constants import ANSIColors
 from utility.console_print import clear_console
 
 def main():
@@ -18,7 +18,7 @@ def display_main_menu():
 
     while running:
 
-        menu_name = ANSI_Colors.color_str("-- Weather Menu --", ANSI_Colors.GREEN)
+        menu_name = ANSIColors.color_str("-- Weather Menu --", ANSIColors.GREEN)
         print(menu_name)
         print(f"{MenuOptions.DAYLIGHT_HOURS}: Daylight Hours by Country over Time")
         print(f"{MenuOptions.AIR_QUALITY}: Air Quality by Temperature over Time")
@@ -45,8 +45,8 @@ def display_main_menu():
             case MenuOptions.EXIT:
                 running = False
         
-    # Clear console before next iteration and on exit
-    clear_console()
+        # Clear console before next iteration and on exit
+        clear_console()
 
 
 
