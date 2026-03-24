@@ -9,7 +9,7 @@ def air_quality_by_country_over_time():
         df['country'] = df['country'].astype(str).str.strip()
 
     df = df.dropna(subset=['last_updated'])
-    df['date'] = pd.to_datetime(df['last_updated'], dayfirst=True, errors='coerce')
+    df['date'] = pd.to_datetime(df['last_updated'], dayfirst=False, errors='coerce')
     df = df.dropna(subset=['date'])
 
     # date range selection
