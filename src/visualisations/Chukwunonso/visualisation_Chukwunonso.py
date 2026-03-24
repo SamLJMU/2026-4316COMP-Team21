@@ -16,8 +16,8 @@ def temperature_celsius_to_feels_like_celsius():
         "Country not found. Try again",)
 
  # Process data per filter
-df = df [df["country"] == country]
-df = df.loc[(df["last_updated_date_time"] >= "2024-01-01")]
+    df = df [df["country"] == country]
+    df = df.loc[(df["last_updated_date_time"] >= "2024-01-01")]
 
 
     
