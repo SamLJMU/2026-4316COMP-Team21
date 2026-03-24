@@ -50,10 +50,6 @@ def avg_temp_by_country_over_time():
 
     # Available temperature units
     available_units = [
-        'air_quality_Carbon_Monoxide',
-        'air_quality_Ozone',
-        'air_quality_Nitrogen_dioxide',
-        'air_quality_Sulphur_dioxide',
-        'air_quality_PM2.5',
-        'air_quality_PM10'
+        'temperature_celsius',
+        'temperature_fahrenheit',
     ]

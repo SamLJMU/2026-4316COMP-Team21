@@ -167,8 +167,8 @@ def air_quality_by_country_over_time():
         plt.ylabel(index_name)
         plt.legend()
         plt.tight_layout()
-        plt.show()
         plt.savefig('air_quality_plot.png')
         print(f"✅ Plot saved as air_quality_plot.png for {', '.join(selected_countries)} - {index_name}")
+        plt.show()
     else:
         print("\nNo countries selected.")
