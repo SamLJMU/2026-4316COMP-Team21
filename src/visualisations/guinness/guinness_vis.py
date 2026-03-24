@@ -67,7 +67,7 @@ def air_quality_by_country_over_time():
         print(f"{i}. {display_name}")
 
     while True:
-        choice = input("\nSelect an index by number or name: ").strip()
+        choice = input("\nSelect an index by list number: ").strip()
         if choice.isdigit() and 1 <= int(choice) <= len(available_indices):
             selected_index = available_indices[int(choice) - 1]
             break
@@ -167,6 +167,7 @@ def air_quality_by_country_over_time():
         plt.ylabel(index_name)
         plt.legend()
         plt.tight_layout()
+        plt.show()
         plt.savefig('air_quality_plot.png')
         print(f"✅ Plot saved as air_quality_plot.png for {', '.join(selected_countries)} - {index_name}")
     else:
