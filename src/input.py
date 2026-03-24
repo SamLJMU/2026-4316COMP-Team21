@@ -40,6 +40,8 @@ def input_year(prompt: str) -> int:
     # TODO Get min and max year from dataset instead of it being hardcoded
     return getIntegerRange(prompt, 2024, 2026)
 
+# Returns a tuple consisting of the starting timestamp and ending timestamp
+# Example output -> ("2025-01-01", "2025-12-31")
 def input_timeframe(prompt: str) -> tuple:
     
     # Step 1. Input timeframe filter
@@ -69,14 +71,17 @@ def input_timeframe(prompt: str) -> tuple:
 
     # Step 2. Get date data based on timeframe entered
     # TODO Handle month missing. i.e December 2026, January 2024, etc...
+    # TODO Once year is entered check if some months are missing ? if 2024 is entered make it only possible from may to december
     match(timeframe_input):
         case TimeframesEnum.YEAR:
             year = input_year("Year: ")
+            # TODO get min for that year and max for that year
             return (f"{year}-01-01",
                     f"{year}-12-31")
         
         case TimeframesEnum.MONTH:
             year = input_year("Year: ")
+            # TODO get min and max month for that year
             month = input_month("Month: ")
 
             timestamp = Period(f"{year}-{month}", "M").end_time

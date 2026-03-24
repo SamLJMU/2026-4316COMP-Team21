@@ -10,7 +10,6 @@ def air_quality_over_time():
     # Filter Input
     country = input_country("Enter a country name: ", df["country"].to_list(), "Country not found. Try again")
     timeframe = input_timeframe("Desired timeframe filter: ")
-    print(timeframe[1])
 
     # Process data per filter
     df = df[df["country"] == country]
