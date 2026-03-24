@@ -1,5 +1,6 @@
 from utility.console_print import print_info, print_warning, print_success, clear_console
 from classes.constants import ANSIColors, TimeframesEnum
+from utility.general import get_year_min_and_max
 from pandas import Period
 
 # Prompts user to enter an integer within range min and max inclusive
@@ -75,7 +76,7 @@ def input_timeframe(prompt: str) -> tuple:
     match(timeframe_input):
         case TimeframesEnum.YEAR:
             year = input_year("Year: ")
-            # TODO get min for that year and max for that year
+            print( get_year_min_and_max(year) )
             return (f"{year}-01-01",
                     f"{year}-12-31")
         
