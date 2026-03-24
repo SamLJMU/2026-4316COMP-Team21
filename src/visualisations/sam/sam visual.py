@@ -1,13 +1,14 @@
 from classes.file_io import FileIO
 import matplotlib.pyplot as mpl
 import pandas as pd
+from input import input_country
 
 def air_pressure_and_percipitation():
     # Get dataset
     df = FileIO.dataset_df[["country", "last_updated_date_time", "pressure_in", "precip_mmW"]]
 
     # Filter Input
-    country = getCountryInput("Enter a country name: ", df["country"].to_list(), "Country not found. Try again")
+    country = input_country("Enter a country name: ", df["country"].to_list(), "Country not found. Try again")
 
     # Process data per filter
     df = df[df["country"] == country]

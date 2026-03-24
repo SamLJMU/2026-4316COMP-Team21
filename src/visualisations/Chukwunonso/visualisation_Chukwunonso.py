@@ -1,7 +1,7 @@
 from classes.file_io import FileIO
 import matplotlib.pyplot as mpl
 import pandas as pd
-from input import getCountryInput
+from input import input_country
 
 
 def temperature_celsius_to_feels_like_celsius():
@@ -10,7 +10,7 @@ def temperature_celsius_to_feels_like_celsius():
         ["temperature_celsius", "feels_like_celsius", "last_updated ", "country"]
     ]
     # Filter Input
-    country = getCountryInput(
+    country = input_country(
         "Enter a country name: ",
         df["country"].to_list(),
         "Country not found. Try again",)
