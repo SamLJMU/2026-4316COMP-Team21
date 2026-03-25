@@ -4,11 +4,9 @@ import pandas as pd
 from input import input_country
 
 
-def temperature_celsius_to_feels_like_celsius():
+def Wind_mph_to_gust_mph():
     # Filter Input
-    df = FileIO.dataset_df[
-        ["temperature_celsius", "feels_like_celsius", "last_updated ", "country"]
-    ]
+    df = FileIO.dataset_df[["wind_mph", "gust_mph", "last_updated ", "country"]]
     # Filter Input
     country = input_country(
         "Enter a country name: ",
@@ -23,5 +21,5 @@ def temperature_celsius_to_feels_like_celsius():
     # Visualise via matplotlib
     fig, ax = mpl.subplots()
 
-    ax.plot(df["temperature_celsius"], df["last_updated"])
+    ax.plot(df["wind_mph"], df["last_updated"])
     mpl.show()
