@@ -1,6 +1,6 @@
 from utility.console_print import print_info, print_warning, print_success, clear_console
 from classes.constants import ANSIColors, TimeframesEnum
-from utility.general import get_year_min_and_max, get_min_and_max_dates
+from utility.general import get_year_min_and_max, get_min_and_max_dates, get_countries_list
 from pandas import Period
 
 # Prompts user to enter an integer within range min and max inclusive
@@ -20,8 +20,9 @@ def getIntegerRange(prompt, min, max) -> int:
             print_warning("Only numerical integers are allowed as input. Please try again")
     return user_input
 
-# Prompts user to enter a country, if input is not within accepted_input reject it and prompt again
-def input_country(prompt: str, accepted_input: list, err_msg: str) -> str:
+# Prompts user to enter a country, if input is not within countries list reject it and prompt again
+def input_country(prompt: str, err_msg: str) -> str:
+    accepted_input = get_countries_list()
     exit = False
     user_input = ""
     while not exit:

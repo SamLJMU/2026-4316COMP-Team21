@@ -8,7 +8,7 @@ def air_pressure_and_percipitation():
     df = FileIO.dataset_df[["country", "last_updated_date_time", "pressure_in", "precip_mmW"]]
 
     # Filter Input
-    country = input_country("Enter a country name: ", df["country"].to_list(), "Country not found. Try again")
+    country = input_country("Enter a country name: ", "Country not found. Try again")
 
     # Process data per filter
     df = df[df["country"] == country]

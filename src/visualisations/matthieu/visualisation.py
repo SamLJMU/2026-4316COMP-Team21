@@ -8,15 +8,15 @@ def air_quality_over_time():
     df = FileIO.dataset_df[["country", "last_updated_date_time", "air_quality_PM2.5"]]
 
     # Filter Input
-    country = input_country("Enter a country name: ", df["country"].to_list(), "Country not found. Try again")
+    country = input_country("Enter a country name: ", "Country not found. Try again")
     timeframe = input_timeframe("Desired timeframe filter: ")
 
     # Process data per filter
     df = df[df["country"] == country]
     df = df.loc[(df["last_updated_date_time"] >= timeframe[0]) & (df["last_updated_date_time"] <= timeframe[1])]
 
-    # print(df.head)
-
+    # Group data
+    # TODO
     # period = df.last_updated_date_time.dt.to_period("M")
     # s = df.groupby(period)["air_quality_PM2.5"].mean()
 
@@ -25,15 +25,6 @@ def air_quality_over_time():
 
     # Converts PeriodIndex to DateTimeIndex, for plotting conversion
     # df.index = df.index.to_timestamp()
-
-    # Ask for sorting
-    # TODO
-
-    # Ask for sort order
-    # TODO
-
-    # Sort data
-    # TODO df.sort_values()
 
     # Visualise via matplotlib
     fig, ax = mpl.subplots()
