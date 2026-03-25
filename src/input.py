@@ -1,6 +1,6 @@
 from utility.console_print import print_info, print_warning, print_success, clear_console
 from classes.constants import ANSIColors, TimeframesEnum
-from utility.general import get_year_min_and_max
+from utility.general import get_year_min_and_max, get_min_and_max_dates, get_countries_list
 from pandas import Period
 
 # Prompts user to enter an integer within range min and max inclusive
@@ -20,8 +20,9 @@ def getIntegerRange(prompt, min, max) -> int:
             print_warning("Only numerical integers are allowed as input. Please try again")
     return user_input
 
-# Prompts user to enter a country, if input is not within accepted_input reject it and prompt again
-def input_country(prompt: str, accepted_input: list, err_msg: str) -> str:
+# Prompts user to enter a country, if input is not within countries list reject it and prompt again
+def input_country(prompt: str, err_msg: str) -> str:
+    accepted_input = get_countries_list()
     exit = False
     user_input = ""
     while not exit:
@@ -34,12 +35,14 @@ def input_country(prompt: str, accepted_input: list, err_msg: str) -> str:
     
     return user_input
 
-def input_month(prompt: str) -> int:
-    return getIntegerRange(prompt, 1, 12)
+def input_month(prompt: str, min=1, max=12) -> int:
+    print_info(f"Month range available: {min} - {max}")
+    return getIntegerRange(prompt, min, max)
 
 def input_year(prompt: str) -> int:
-    # TODO Get min and max year from dataset instead of it being hardcoded
-    return getIntegerRange(prompt, 2024, 2026)
+    min_date, max_date = get_min_and_max_dates()
+    print_info(f"Year range available: {min_date.year} - {max_date.year}")
+    return getIntegerRange(prompt, min_date.year, max_date.year)
 
 # Returns a tuple consisting of the starting timestamp and ending timestamp
 # Example output -> ("2025-01-01", "2025-12-31")
@@ -71,20 +74,22 @@ def input_timeframe(prompt: str) -> tuple:
             print_warning("Only integers are allowed as input. Please try again")
 
     # Step 2. Get date data based on timeframe entered
-    # TODO Handle month missing. i.e December 2026, January 2024, etc...
-    # TODO Once year is entered check if some months are missing ? if 2024 is entered make it only possible from may to december
+    min_date, max_date = get_min_and_max_dates()
+
     match(timeframe_input):
         case TimeframesEnum.YEAR:
             year = input_year("Year: ")
-            print( get_year_min_and_max(year) )
             return (f"{year}-01-01",
                     f"{year}-12-31")
         
         case TimeframesEnum.MONTH:
             year = input_year("Year: ")
-            # TODO get min and max month for that year
-            month = input_month("Month: ")
 
+            # Get minimum and maximum dates for that year
+            min, max = get_year_min_and_max(year)
+            month = input_month("Month: ", min.month, max.month)
+
+            # Get last day for that month (27-31)
             timestamp = Period(f"{year}-{month}", "M").end_time
             last_date = timestamp.day
 
@@ -95,7 +100,8 @@ def input_timeframe(prompt: str) -> tuple:
             raise NotImplementedError
 
         case TimeframesEnum.NONE:
-            raise NotImplementedError
+            return (f"{min_date.year}-{min_date.month}-{min_date.day}",
+                    f"{max_date.year}-{max_date.month}-{max_date.day}")
         
         case _:
             raise Exception(f"Unhandled Timeframe Type: {timeframe_input}")    

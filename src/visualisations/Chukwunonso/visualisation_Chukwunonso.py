@@ -12,9 +12,7 @@ def temperature_celsius_to_feels_like_celsius():
     # Filter Input
     country = input_country(
         "Enter a country name: ",
-        df["country"].to_list(),
-        "Country not found. Try again",
-    )
+        "Country not found. Try again",)
 
     # Process data per filter
     df = df[df["country"] == country]
