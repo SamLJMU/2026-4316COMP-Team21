@@ -16,10 +16,11 @@ def temperature_celsius_to_feels_like_celsius():
 
     # Process data per filter
     df = df[df["country"] == country]
-    df = df.loc[(df["last_updated_date_time"] >= "2024-01-01")]
+    df = df.loc[(df["last_updated"] >= "2024-01-01")]
 
     # Visualise via matplotlib
     fig, ax = mpl.subplots()
-
-    ax.plot(df["temperature_celsius"], df["last_updated"])
+    ax.plot(df["last_updated"], df["temperature_celsius"], label="Temperature")
+    ax.plot(df["last_updated"], df["feels_like_celsius"], label="Feels Like")
+    ax.legend()
     mpl.show()

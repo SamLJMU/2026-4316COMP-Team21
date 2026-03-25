@@ -5,6 +5,8 @@ from visualisations.matthieu.visualisation import air_quality_over_time # might 
 from visualisations.riccardo.visualisation_riccardo import daylight_hours
 from visualisations.guinness.guinness_vis import air_quality_by_country_over_time
 from visualisations.joseph.joseph_vis import avg_temp_by_country_over_time
+from visualisations.Chukwunonso.visualisation_Chukwunonso import temperature_celsius_to_feels_like_celsius
+from visualisations.Chukwunonso.visualisation_Chukwunonso2 import Wind_mph_to_gust_mph 
 from classes.constants import ANSIColors
 from utility.console_print import clear_console
 
@@ -24,6 +26,7 @@ def display_main_menu():
         print(f"{MenuOptions.AIR_QUALITY}: Air Quality by Temperature over Time")
         print(f"{MenuOptions.AIR_QUALITY_BY_COUNTRY}: Air Quality by Country over Time")
         print(f"{MenuOptions.AVG_TEMP_BY_COUNTRY}: Average Temperature by Timezone over Time")
+       ## print(f"{MenuOptions.Temperture_and_feels_like}: The difference between actually temperature and feels like temperature")
         print(f"{MenuOptions.EXIT}: Exit")
 
         selectedIndex = getIntegerRange("Choose your option: ", 0, 4)
@@ -41,6 +44,9 @@ def display_main_menu():
 
             case MenuOptions.AVG_TEMP_BY_COUNTRY:
                 avg_temp_by_country_over_time()
+
+            ##case MenuOptions.: I need help finishing this 
+            ##    temperature_celsius_to_feels_like_celsius()  
 
             case MenuOptions.EXIT:
                 running = False
