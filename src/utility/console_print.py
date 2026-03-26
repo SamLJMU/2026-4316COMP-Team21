@@ -8,6 +8,9 @@ def print_info(msg):
 def print_warning(msg):
     print(f"{ANSIColors.YELLOW}{msg}{ANSIColors.ENDC}")
 
+def print_error(msg):
+    print(f"{ANSIColors.RED}{msg}{ANSIColors.ENDC}")
+
 def print_success(msg):
     print(f"{ANSIColors.GREEN}{msg}{ANSIColors.ENDC}")
 
