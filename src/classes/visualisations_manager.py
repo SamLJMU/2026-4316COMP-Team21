@@ -2,6 +2,7 @@ import json
 from classes.visualisation import Visualisation
 from function_mapping import function_map
 from classes.constants import ANSIColors
+from utility.console_print import print_line
 
 class VisualisationManager(object):
     _instance = None
@@ -36,6 +37,8 @@ class VisualisationManager(object):
         print(menu_name)
         for key, value in self._visualisations.items():
             print(f"{key}: {value.message}")
+
+        print_line()
 
     def callChosenOption(self, key):
         self._visualisations[key].run()

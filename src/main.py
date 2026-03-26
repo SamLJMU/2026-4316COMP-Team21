@@ -18,10 +18,8 @@ def display_main_menu(vis_manager: VisualisationManager):
     while running:
 
         vis_manager.displayOptions()
-        
-        print_line()
-        selectedIndex = getIntegerRange("Choose your option: ", vis_manager.min_option, vis_manager.max_option)
 
+        selectedIndex = getIntegerRange("Choose your option: ", vis_manager.min_option, vis_manager.max_option)
         if selectedIndex == vis_manager.min_option:
             clear_console()
             break
