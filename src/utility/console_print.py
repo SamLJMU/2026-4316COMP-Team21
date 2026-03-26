@@ -11,6 +11,9 @@ def print_warning(msg):
 def print_success(msg):
     print(f"{ANSIColors.GREEN}{msg}{ANSIColors.ENDC}")
 
+def print_line():
+    print()
+
 # Clears console output
 def clear_console():
     os.system("cls")
