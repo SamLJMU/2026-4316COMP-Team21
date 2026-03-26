@@ -125,10 +125,34 @@ Add an object with properties `key` and `msg` for your visualisation.
 
 2. Go to `src/function_mapping.py`
 
-Change `function_map` dictionary, and write the as key the `key` you specified in Step 1, and as value assign your function for your visualisation.
+Change `function_map` dictionary, and write as key the `key` you specified in Step 1, and as value assign your function for your visualisation.
 
 > Note not to add the `()` when assigning the value, as it needs to hold the function name, not the `return` value of the function which would usually be void or `None` anyways.
 
+__Example:__
+
+`visualisation_config.json`
+``` json
+[
+    ...,
+    {
+        "key": "test_key",
+        "msg": "This is a test"
+    },
+    ...
+]
+```
+
+`src/function_mapping.py`
+``` python
+from visualisations.example.visualisation import test_visualisation
+
+function_map = {
+    ...,
+    'test_key': test_visualisation,
+    ...
+}
+```
 
 ### Additional Notes
 
