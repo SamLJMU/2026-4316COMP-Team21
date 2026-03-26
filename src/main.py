@@ -26,10 +26,10 @@ def display_main_menu():
         print(f"{MenuOptions.AIR_QUALITY}: Air Quality by Temperature over Time")
         print(f"{MenuOptions.AIR_QUALITY_BY_COUNTRY}: Air Quality by Country over Time")
         print(f"{MenuOptions.AVG_TEMP_BY_COUNTRY}: Average Temperature by Timezone over Time")
-       ## print(f"{MenuOptions.Temperture_and_feels_like}: The difference between actually temperature and feels like temperature")
+        print(f"{MenuOptions.TEMP_TO_FEELS_LIKE}: Temperature against Feels Like Temperature")
         print(f"{MenuOptions.EXIT}: Exit")
 
-        selectedIndex = getIntegerRange("Choose your option: ", 0, 4)
+        selectedIndex = getIntegerRange("Choose your option: ", 0, 5)
 
         match selectedIndex:
 
@@ -45,8 +45,8 @@ def display_main_menu():
             case MenuOptions.AVG_TEMP_BY_COUNTRY:
                 avg_temp_by_country_over_time()
 
-            ##case MenuOptions.: I need help finishing this 
-            ##    temperature_celsius_to_feels_like_celsius()  
+            case MenuOptions.TEMP_TO_FEELS_LIKE:
+                temperature_celsius_to_feels_like_celsius()  
 
             case MenuOptions.EXIT:
                 running = False
