@@ -113,6 +113,47 @@ Collection of folders for each team member.
 
 Each of those should contain at least __1 file__ declaring a function that fetches data from the `dataset_df` DataFrame and produce a graph via `matplotlib`
 
+### How to add a visualisation
+
+1. Go to `visualisation_config.json`
+
+Add an object with properties `key` and `msg` for your visualisation.
+
+`key` would be the key to a function (more on that in a bit)
+
+`msg` would be the message displayed in the menu for this visualisation
+
+2. Go to `src/function_mapping.py`
+
+Change `function_map` dictionary, and write as key the `key` you specified in Step 1, and as value assign your function for your visualisation.
+
+> Note not to add the `()` when assigning the value, as it needs to hold the function name, not the `return` value of the function which would usually be void or `None` anyways.
+
+__Example:__
+
+`visualisation_config.json`
+``` json
+[
+    ...,
+    {
+        "key": "test_key",
+        "msg": "This is a test"
+    },
+    ...
+]
+```
+
+`src/function_mapping.py`
+``` python
+from visualisations.example.visualisation import test_visualisation
+
+function_map = {
+    ...,
+    'test_key': test_visualisation,
+    ...
+}
+```
+
 ### Additional Notes
 
 > Every module can be imported by specifying their directory followed by the file name. So if we were to import the `FileIO` class into a source file, `from classes.file_io import FileIO` can be written in the source file where we want to use it. As you can see `classes` is the directory and `file_io` is the file name, hence `classes.file_io` importing the class `FileIO`.

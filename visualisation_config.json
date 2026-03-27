@@ -1,0 +1,26 @@
+[
+    {
+        "key": "riccardo_1",
+        "msg": "Daylight Hours by Country over Time"
+    },
+    {
+        "key": "matthieu_1",
+        "msg": "Air Quality by Temperature over Time"
+    },
+    {
+        "key": "guinness_1",
+        "msg": "Air Quality by Country over Time"
+    },
+    {
+        "key": "joseph_1",
+        "msg": "Average Temperature by Timezone over Time"
+    },
+    {
+        "key": "chukwunonso_1",
+        "msg": "Temperature against Feels Like Temperature"
+    },
+    {
+        "key": "chukwunonso_2",
+        "msg": "Wind to Gust Relation"
+    }
+]
