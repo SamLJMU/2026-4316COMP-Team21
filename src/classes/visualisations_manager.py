@@ -2,6 +2,7 @@ import json
 from classes.visualisation import Visualisation
 from function_mapping import function_map
 from classes.constants import ANSIColors
+from utility.console_print import print_line, print_error
 
 class VisualisationManager(object):
     _instance = None
@@ -25,6 +26,12 @@ class VisualisationManager(object):
 
             start_index = self.min_option + 1
             for idx, v in enumerate(json_visualisations, start_index):
+
+                # Error checking
+                if v['key'] not in function_map:
+                    print_error(f"No mapping for '{v['key']}' in function_map, ensure keys match in visualisation_config.json and function_mapping.py")
+                    raise KeyError(f"No function mapped to this key in function_mapping.py. Key: `{v['key']}`")
+
                 visualisation_obj = Visualisation(v['msg'], function_map[v['key']])
                 self._visualisations[idx] = (visualisation_obj)
                 self._max_option = idx
@@ -36,6 +43,8 @@ class VisualisationManager(object):
         print(menu_name)
         for key, value in self._visualisations.items():
             print(f"{key}: {value.message}")
+
+        print_line()
 
     def callChosenOption(self, key):
         self._visualisations[key].run()

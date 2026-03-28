@@ -27,7 +27,7 @@ def input_country(prompt: str, err_msg: str) -> str:
     user_input = ""
     while not exit:
         user_input = input(ANSIColors.color_str(prompt, ANSIColors.BLUE))
-        user_input = user_input.capitalize()
+        user_input = user_input.title()
         if(user_input in accepted_input):
             exit = True
         else:
