@@ -43,6 +43,8 @@ The basic workflow is:
 
 A team member will have the role of merging the other branches onto main.
 
+> Note: If you cannot see the branches on VS Code, click on the 3 dots next to refresh and select `Fetch`. After that you should be able to select the branches you could not see.
+
 # Accessing dataset within program
 
 - Use the `FileIO` static class from `file_io.py` and get the `dataset_df` property.
