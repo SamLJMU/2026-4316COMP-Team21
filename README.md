@@ -1,9 +1,9 @@
-## Functionality
+# Functionality
 
 The application should allow the user to visualise data as graphs and filter information
 in order to gain useful insights into weather patterns across the globe.
 
-## Requirements
+# Requirements
 
 The requirements are:
 
@@ -16,7 +16,7 @@ The requirements are:
     - Minimum, Maximum and Average Values for key columns
     - Unit conversion (e.g. Celsius to Fahreneit, mph to kmh)
 
-## Queries
+# Queries
 
 - Temperature change over time country
 - Wind Speed over time by country
@@ -29,7 +29,21 @@ The requirements are:
 - Air quality by country
 - Sunrise and sunset time by country/latitude
 
-## Accessing dataset within program
+# Branches
+
+`main` is the master branch of the repository, eventually most, if not all of the branches will merge onto it.
+
+__Every__ team member has a branch named after themselves, they should push their progress only to that branch to avoid having `out-of-sync` or `overwrite` issues.
+
+The basic workflow is:
+
+1. Be on your named branch. __NOT `main`__
+2. Merge `main` __onto__ your branch, so as to have the most up-to-date code
+3. Commit your work on that named branch
+
+A team member will have the role of merging the other branches onto main.
+
+# Accessing dataset within program
 
 - Use the `FileIO` static class from `file_io.py` and get the `dataset_df` property.
 
