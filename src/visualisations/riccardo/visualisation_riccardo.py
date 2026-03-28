@@ -16,20 +16,17 @@ def daylight_hours():
     df = FileIO.dataset_df[["country", "last_updated", "sunrise", "sunset"]]
 
     # prompt user for name of country (filter), validate input
-    # print("Filter")
-    # TODO
     country = "Italy"
     while True:
         country_selection = input("Choose a country, make sure to type the name correctly!\n")
         if country_selection.capitalize() in df["country"].values:
             country = country_selection.capitalize()
-            print(country)
+            print(f"You selected {country}")
             break
         else:
             print("Country not found, have you typed the name correctly?")
 
     # process data per name of country (filter)
-    # TODO
     filtered_df = df[df["country"] == country]
     filtered_df["last_updated"] = pd.to_datetime(filtered_df["last_updated"])
     filtered_df = filtered_df.loc[(filtered_df["last_updated"] > "2025-1-1")]
@@ -38,23 +35,14 @@ def daylight_hours():
     daylight_minutes_list = []
     dates = []
 
-    for _, row in filtered_df.iterrows():                             #ask matthieu
+    for _, row in filtered_df.iterrows():
         sunset_minutes = string_time_to_minutes(row["sunset"])
         sunrise_minutes = string_time_to_minutes(row["sunrise"])
         
-        daylight_minutes = sunset_minutes - sunrise_minutes    #TODO convert to military time to display in labels#
+        daylight_minutes = sunset_minutes - sunrise_minutes
         
         daylight_minutes_list.append(daylight_minutes)
         dates.append(row["last_updated"])
-        
-    print(dates)
-
-    # Ask for sorting
-    # TODO
-
-    # Ask for sort order
-    print("Sort Order")
-    # TODO
 
     # Sort data
     # TODO df.sort_values()
