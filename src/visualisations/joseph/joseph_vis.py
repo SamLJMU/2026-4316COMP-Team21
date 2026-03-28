@@ -82,7 +82,7 @@ def avg_temp_by_country_over_time():
     print(f"✅ Selected: {selected_index.replace('temperature_', '').replace('_', ' ').capitalize()}")
 
     # Get unique timezones
-    available_timezones = sorted([c.strip() for c in df['timezone'].unique() if pd.notna(c)])
+    available_timezones = sorted([c.strip() for c in df['timezone'].unique() if pd.notna(c)], key=lambda x: x.rsplit('/', 1)[-1])
     page_size = 10
     current_page = 0
     total_pages = (len(available_timezones) + page_size - 1) // page_size
@@ -99,7 +99,8 @@ def avg_temp_by_country_over_time():
 
         print(f"\nPage {current_page + 1} of {(len(available_timezones) + page_size - 1) // page_size}:")
         for i, timezone in enumerate(page_timezones, 1):
-            print(f"{i}. {timezone}")
+            display_name = timezone.rsplit('/', 1)[-1]
+            print(f"{i}. {display_name}")
 
         print("\nOptions: 'next', 'prev', 'done', 'help', or pick by page number/timezone name.")
         choice = input("Your choice: ").strip()
@@ -138,7 +139,8 @@ def avg_temp_by_country_over_time():
                     selected_timezones.append(exact_timezone)
                     print(f"Added {exact_timezone} (auto-match)")
             else:
-                print(f"\nInvalid choice. Try again. Similar timezones: {similar[:10]}")
+                similar_display = [tz.rsplit('/', 1)[-1] for tz in similar[:10]]
+                print(f"\nInvalid choice. Try again. Similar timezones: {similar_display}")
             continue
 
         if exact_timezone in selected_timezones:
