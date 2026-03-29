@@ -21,8 +21,8 @@ def Wind_mph_to_gust_mph():
 
     # Visualise via matplotlib
     fig, ax = mpl.subplots(figsize=(12, 6))
-    ax.plot(df["last_updated_date_time"], df["wind_mph"], label="Wind Speed")
-    ax.plot(df["last_updated_date_time"], df["gust_mph"], label="Gust")
+    ax.plot(df["last_updated_date_time"], df["wind_mph"], label="Wind Speed", marker=".")
+    ax.plot(df["last_updated_date_time"], df["gust_mph"], label="Gust", marker=".")
     ax.fill_between(df["last_updated_date_time"], df["wind_mph"], df["gust_mph"], alpha=0.2)
     ax.set_title("Wind Speed vs Gust by Month per Country")
     ax.set_xlabel("Date")
