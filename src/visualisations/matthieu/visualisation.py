@@ -8,7 +8,7 @@ def air_quality_over_time():
     df = FileIO.dataset_df[["country", "last_updated_date_time", "air_quality_PM2.5", "temperature_celsius"]]
 
     # Filter Input
-    country = input_country("Enter a country name: ", "Country not found. Try again")
+    country = input_country()
     timeframe = input_timeframe("Desired timeframe filter: ")
 
     # Process data per filter

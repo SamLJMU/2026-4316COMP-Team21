@@ -5,6 +5,7 @@ from matplotlib.ticker import FuncFormatter
 import matplotlib.dates as mdates
 import pandas as pd
 import matplotlib.ticker as ticker
+from input import input_country
 
 def minutes_to_military(total_minutes, tick_number):
     hours = int(total_minutes // 60)
@@ -18,15 +19,7 @@ def daylight_hours():
     # prompt user for name of country (filter), validate input
     # print("Filter")
     # TODO
-    country = "Italy"
-    while True:
-        country_selection = input("Choose a country, make sure to type the name correctly!\n")
-        if country_selection.capitalize() in df["country"].values:
-            country = country_selection.capitalize()
-            print(country)
-            break
-        else:
-            print("Country not found, have you typed the name correctly?")
+    country = input_country()
 
     # process data per name of country (filter)
     # TODO

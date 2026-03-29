@@ -2,6 +2,7 @@ from utility.console_print import print_info, print_warning, print_success, clea
 from classes.constants import ANSIColors, TimeframesEnum
 from utility.general import get_year_min_and_max, get_min_and_max_dates, get_countries_list
 from pandas import Period
+from classes.file_io import FileIO
 
 # Prompts user to enter an integer within range min and max inclusive
 def getIntegerRange(prompt, min, max) -> int:
@@ -21,19 +22,25 @@ def getIntegerRange(prompt, min, max) -> int:
     return user_input
 
 # Prompts user to enter a country, if input is not within countries list reject it and prompt again
-def input_country(prompt: str, err_msg: str) -> str:
-    accepted_input = get_countries_list()
-    exit = False
-    user_input = ""
-    while not exit:
-        user_input = input(ANSIColors.color_str(prompt, ANSIColors.BLUE))
-        user_input = user_input.title()
-        if(user_input in accepted_input):
-            exit = True
-        else:
-            print_warning(err_msg)
+def input_country() -> str:
+    all_countries = sorted(FileIO.dataset_df["country"].unique().tolist())
     
-    return user_input
+    while True:
+        user_input = input(ANSIColors.color_str("Enter a country name: ", ANSIColors.BLUE)).strip()
+        
+        matches = [c for c in all_countries if user_input.lower() in c.lower()]
+        
+        if len(matches) == 1:
+            print(f"Selected: {matches[0]}")
+            return matches[0]
+        
+        elif len(matches) > 1:
+            print("Did you mean one of these?")
+            for country in matches:
+                print(f"  - {country}")
+        
+        else:
+            print_warning("Country not found. Try again")
 
 def input_month(prompt: str, min=1, max=12) -> int:
     print_info(f"Month range available: {min} - {max}")
