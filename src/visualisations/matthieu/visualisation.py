@@ -28,13 +28,26 @@ def air_quality_over_time():
 
     # Visualise via matplotlib
     fig, ax = mpl.subplots()
-    # ax.plot(df.index, df["air_quality_PM2.5"])
-    #ax.plot(df["last_updated_date_time"], df["air_quality_PM2.5"])
-    #ax.plot(df["last_updated_date_time"], df["temperature_celsius"])
-    ax.scatter(df["temperature_celsius"], df["air_quality_PM2.5"])
+
+    # Scatter plot
+    ax.scatter(df["temperature_celsius"], df["air_quality_PM2.5"], color="g")
     
+    # Line of best fit
     x = df["temperature_celsius"]
     y = df["air_quality_PM2.5"]
-    ax.plot(np.unique(x), np.poly1d(np.polyfit(x, y, 1))(np.unique(x)))
+    ax.plot(np.unique(x), np.poly1d(np.polyfit(x, y, 1))(np.unique(x)), color="r")
 
+    # Window settings
+    window_width = 10
+    window_height = 8
+    fig.canvas.manager.set_window_title("Air Pollution relation to Temperature (C)")
+    fig.set_figwidth(window_width)
+    fig.set_figheight(window_height)
+    
+    # Graph settings
+    mpl.title("Air Pollution relations to Temperature Levels")
+    mpl.xlabel("Temperature (Celcius)")
+    mpl.ylabel("Air Quality (µg/m3)")
+    
+    # Display
     mpl.show()
