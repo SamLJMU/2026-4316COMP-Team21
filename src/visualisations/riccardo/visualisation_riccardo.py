@@ -1,7 +1,6 @@
 from classes.file_io import FileIO
 from utility.row_transformations import string_time_to_minutes
 import matplotlib.pyplot as mpl
-from matplotlib.ticker import FuncFormatter
 import matplotlib.dates as mdates
 import pandas as pd
 import matplotlib.ticker as ticker
@@ -87,9 +86,9 @@ def daylight_hours():
 
     # Visualise via matplotlib
     fig, ax = mpl.subplots()
-    ax.plot(dates, daylight_minutes_list, color = 'blue', label = country)
+    ax.plot(dates, daylight_minutes_list, color = 'blue', label = country, marker = 'o')
     if compare_countries == True:
-        ax.plot(dates, daylight_minutes_list_2, color = 'red', label = country_2)
+        ax.plot(dates, daylight_minutes_list_2, color = 'red', label = country_2, marker = 'o')
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=1))
     ax.yaxis.set_major_formatter(mpl.FuncFormatter(minutes_to_military))
