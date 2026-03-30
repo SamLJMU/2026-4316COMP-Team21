@@ -1,1 +1,1 @@
-#placeholder
+#Temperature by Dailyght Hours over Time (if suitable)
