@@ -10,6 +10,7 @@ def minutes_to_military(total_minutes, tick_number):
     minutes = int(total_minutes % 60)
     return f"{hours:02d}:{minutes:02d}"
 
+# visualise daylight hours over time by country
 def daylight_hours():
     # Get dataset
     df = FileIO.dataset_df[["country", "last_updated", "sunrise", "sunset"]]
@@ -23,7 +24,7 @@ def daylight_hours():
     while True:
         country_selection = input("Choose a country, make sure to type the name correctly!\n")
         if country_selection.strip().title() in df["country"].values:
-            country = country_selection.strip().title()    #fix issue with countries such as United States of America
+            country = country_selection.strip().title()
             print(f"You selected: {country}")
             break
         else:
@@ -35,7 +36,7 @@ def daylight_hours():
         if answer.upper() == "YES" or answer.upper() == "Y":
             country_selection_2 = input("Choose a second country, make sure to type the name correctly!\n")
             if country_selection_2.strip().title() in df["country"].values:
-                country_2 = country_selection_2.strip().title()   #fix issue with countries such as United States of America
+                country_2 = country_selection_2.strip().title()
                 compare_countries = True
                 print(f"I will compare {country} and {country_2}")
                 break
@@ -66,6 +67,7 @@ def daylight_hours():
     daylight_minutes_list_2 = []
     dates = []
 
+    # prepare data for visualisation
     for _, row in filtered_df.iterrows():
         sunset_minutes = string_time_to_minutes(row["sunset"])
         sunrise_minutes = string_time_to_minutes(row["sunrise"])
