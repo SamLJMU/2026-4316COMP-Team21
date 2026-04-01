@@ -4,7 +4,7 @@ from utility.general import get_year_min_and_max, get_min_and_max_dates, get_cou
 from pandas import Period
 
 # Prompts user to enter an integer within range min and max inclusive
-def getIntegerRange(prompt, min, max) -> int:
+def input_integer(prompt, min, max) -> int:
     exit = False
     user_input = 0
     while not exit:
@@ -19,6 +19,17 @@ def getIntegerRange(prompt, min, max) -> int:
         except ValueError as except_msg:
             print_warning("Only numerical integers are allowed as input. Please try again")
     return user_input
+
+# Asks user whether they want to filter by country or not
+def input_filter_by_country() -> int:
+    print_info("Filter by country ?")
+    options = ["No", "Yes"]
+
+    for index, option in enumerate(options):
+        print(f"{index}: {option}")
+
+    choice = input_integer("Input: ", 0, len(options) - 1)
+    return bool(choice)
 
 # Prompts user to enter a country, if input is not within countries list reject it and prompt again
 def input_country(prompt: str, err_msg: str) -> str:
@@ -37,12 +48,12 @@ def input_country(prompt: str, err_msg: str) -> str:
 
 def input_month(prompt: str, min=1, max=12) -> int:
     print_info(f"Month range available: {min} - {max}")
-    return getIntegerRange(prompt, min, max)
+    return input_integer(prompt, min, max)
 
 def input_year(prompt: str) -> int:
     min_date, max_date = get_min_and_max_dates()
     print_info(f"Year range available: {min_date.year} - {max_date.year}")
-    return getIntegerRange(prompt, min_date.year, max_date.year)
+    return input_integer(prompt, min_date.year, max_date.year)
 
 # Returns a tuple consisting of the starting timestamp and ending timestamp
 # Example output -> ("2025-01-01", "2025-12-31")
@@ -105,3 +116,16 @@ def input_timeframe(prompt: str) -> tuple:
         
         case _:
             raise Exception(f"Unhandled Timeframe Type: {timeframe_input}")    
+
+def input_pollution_type(prompt: str) -> str:
+    air_quality_column = "air_quality_"
+    particle_types = ["PM2.5", "PM10"]
+
+    print_info("Pollution Types available: ")
+    for index, particle in enumerate(particle_types):
+        print(f"{index}: {particle}")
+
+    user_choice = input_integer(prompt, 0, len(particle_types) - 1)
+    particle_chosen = particle_types[user_choice]
+
+    return f"{air_quality_column}{particle_chosen}"
