@@ -52,7 +52,7 @@ def daylight_hours():
     # process data per name of country (filter)
     filtered_df = df[df["country"] == country]
     filtered_df["last_updated"] = pd.to_datetime(filtered_df["last_updated"])
-    filtered_df = filtered_df.loc[(filtered_df["last_updated"] > "2025-1-1")]
+    filtered_df = filtered_df.loc[(filtered_df["last_updated"] >= "2025-1-1")]
     filtered_df = filtered_df[filtered_df["last_updated"].dt.day == 1]
 
     if compare_countries == True:
@@ -92,6 +92,8 @@ def daylight_hours():
         ax.plot(filtered_df["last_updated"], daylight_minutes_list_2, color = 'red', label = country_2, marker = 'o')
 
     ax.yaxis.set_major_formatter(mpl.FuncFormatter(minutes_to_military))
+    ax.yaxis.set_major_locator(ticker.MaxNLocator(nbins=15))
+    ax.xaxis.set_major_locator(ticker.MaxNLocator(nbins=20))
     
     ax.set_xlabel("Date")
     ax.set_ylabel("Daylight Hours shown as hh:mm")
