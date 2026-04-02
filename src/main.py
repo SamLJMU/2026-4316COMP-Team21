@@ -1,7 +1,7 @@
 from input import getIntegerRange
 from classes.file_io import FileIO
 from utility.console_print import clear_console, print_line
-from classes.visualisations_manager import VisualisationManager
+from classes.visualisations_manager import VisualisationManager 
 
 
 def main():

@@ -4,6 +4,10 @@
         "msg": "Daylight Hours by Country over Time"
     },
     {
+        "key": "riccardo_2",
+        "msg": "Moon Illumination by Country over Time"
+    },
+    {
         "key": "matthieu_1",
         "msg": "Air Quality by Temperature over Time"
     },
