@@ -1,9 +1,9 @@
-## Functionality
+# Functionality
 
 The application should allow the user to visualise data as graphs and filter information
 in order to gain useful insights into weather patterns across the globe.
 
-## Requirements
+# Requirements
 
 The requirements are:
 
@@ -16,7 +16,7 @@ The requirements are:
     - Minimum, Maximum and Average Values for key columns
     - Unit conversion (e.g. Celsius to Fahreneit, mph to kmh)
 
-## Queries
+# Queries
 
 - Temperature change over time country
 - Wind Speed over time by country
@@ -29,7 +29,23 @@ The requirements are:
 - Air quality by country
 - Sunrise and sunset time by country/latitude
 
-## Accessing dataset within program
+# Branches
+
+`main` is the master branch of the repository, eventually most, if not all of the branches will merge onto it.
+
+__Every__ team member has a branch named after themselves, they should push their progress only to that branch to avoid having `out-of-sync` or `overwrite` issues.
+
+The basic workflow is:
+
+1. Be on your named branch. __NOT `main`__
+2. Merge `main` __onto__ your branch, so as to have the most up-to-date code
+3. Commit your work on that named branch
+
+A team member will have the role of merging the other branches onto main.
+
+> Note: If you cannot see the branches on VS Code, click on the 3 dots next to refresh and select `Fetch`. After that you should be able to select the branches you could not see.
+
+# Accessing dataset within program
 
 - Use the `FileIO` static class from `file_io.py` and get the `dataset_df` property.
 
@@ -112,6 +128,47 @@ Is the main entry point of the program
 Collection of folders for each team member.
 
 Each of those should contain at least __1 file__ declaring a function that fetches data from the `dataset_df` DataFrame and produce a graph via `matplotlib`
+
+### How to add a visualisation
+
+1. Go to `visualisation_config.json`
+
+Add an object with properties `key` and `msg` for your visualisation.
+
+`key` would be the key to a function (more on that in a bit)
+
+`msg` would be the message displayed in the menu for this visualisation
+
+2. Go to `src/function_mapping.py`
+
+Change `function_map` dictionary, and write as key the `key` you specified in Step 1, and as value assign your function for your visualisation.
+
+> Note not to add the `()` when assigning the value, as it needs to hold the function name, not the `return` value of the function which would usually be void or `None` anyways.
+
+__Example:__
+
+`visualisation_config.json`
+``` json
+[
+    ...,
+    {
+        "key": "test_key",
+        "msg": "This is a test"
+    },
+    ...
+]
+```
+
+`src/function_mapping.py`
+``` python
+from visualisations.example.visualisation import test_visualisation
+
+function_map = {
+    ...,
+    'test_key': test_visualisation,
+    ...
+}
+```
 
 ### Additional Notes
 
