@@ -14,7 +14,7 @@ def userdata_uv_index():
         print("Error: Dataset couldn't be loaded/found")
         return
     
-    print("\n UV Index over Time (per country) \n ")
+    print("\n Daily Maximum UV Index over Time (per country) \n ")
     
     # Keep asking for dates until there the filtered dataset isn't empty
     while True:
@@ -73,10 +73,14 @@ def plot_uv_index(dataset, country_list, start_date, end_date):
             continue
 
         countryData = countryData.sort_values(by='last_updated_date_time')
+
+        # Group data by day and find maximum UV
+        countryData['date_only'] = countryData['last_updated_date_time'].dt.date
+        dailyPeakUV = countryData.groupby('date_only')['uv_index'].max()
     
         ax.plot(
-            countryData['last_updated_date_time'],
-            countryData['uv_index'],
+            dailyPeakUV.index,
+            dailyPeakUV.values,
             marker='o',
             linestyle='-',
             label=f"{country.title()} UV Index"
@@ -84,9 +88,9 @@ def plot_uv_index(dataset, country_list, start_date, end_date):
 
     
     title_countries = ", ".join(country_list)
-    ax.set_title(f"UV Index from ({start_date} to {end_date}): \n {title_countries}", fontsize=14, pad=15)
+    ax.set_title(f"Daily Maximum UV Index from ({start_date} to {end_date}): \n {title_countries}", fontsize=14, pad=15)
     ax.set_xlabel("Date", fontsize=12)
-    ax.set_ylabel("UV Index Level", fontsize=12)
+    ax.set_ylabel("Daily Maximum UV Index Level", fontsize=12)
 
     ax.xaxis.grid(True, linestyle='--', alpha=0.7)
     ax.yaxis.grid(True, linestyle='--', alpha=0.7)
