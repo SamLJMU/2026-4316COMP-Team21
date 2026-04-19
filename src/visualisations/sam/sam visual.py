@@ -18,28 +18,29 @@ def air_pressure_and_percipitation():
          for country in all_countries:
             print(f"  - {country}")
 
-    user_input = input("Enter a country name: ").strip()
+        user_input = input("Enter a country name: ").strip()
 
-    matches = [c for c in all_countries if user_input.lower() in c.lower()]
+        matches = [c for c in all_countries if user_input.lower() in c.lower()]
 
-    if len(matches) == 1:
+        if len(matches) == 1:
             print(f"Selected: {matches[0]}")
             return matches[0]
 
-    elif len(matches) > 1:
-         print(f"\nDid you mean one of these?")
-         for country in matches:
+        elif len(matches) > 1:
+             print(f"\nDid you mean one of these?")
+        for country in matches:
                 print(f"  - {country}")
-         user_input = input("Enter a country name: ").strip()
+        user_input = input("Enter a country name: ").strip()
 
-         exact = [c for c in matches if c.lower() == user_input.lower()]
-         if exact:
+        exact = [c for c in matches if c.lower() == user_input.lower()]
+        if exact:
                 print(f"Selected: {exact[0]}")
                 return exact[0]
 
-         else:
+        else:
             print("Country not found. Try again")
 
+    country = input_country()
     # Process data per filter
     df = df[df["country"] == country]
     df = df.loc[(df["last_updated_date_time"] >= "2024-01-01")]
