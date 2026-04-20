@@ -1,4 +1,4 @@
-from utility.console_print import print_info, print_warning
+from utility.console_print import print_info, print_warning, print_line
 from classes.constants import ANSIColors, TimeframesEnum
 from pandas import Period, to_datetime
 from datetime import date
@@ -62,6 +62,31 @@ def input_country() -> str:
         else:
             print_warning("Country not found. Try again")
 
+def input_multiple_countries(max_input: None|int = None) -> str:
+    countries_selected = []
+
+    while True:
+        country = input_country()
+
+        if(country in countries_selected):
+            print_warning("Country input has already been selected.")
+        else:
+            countries_selected.append(country)
+            if(max_input is not None and max_input == len(countries_selected)):
+                break
+
+        EXIT_CHOICE = 1
+        STAY_CHOICE = 0
+        print(f"{STAY_CHOICE} - Select additional country")
+        print(f"{EXIT_CHOICE} - Exit country selection")
+        
+        choice = input_integer("Choice: ", STAY_CHOICE, EXIT_CHOICE)
+
+        print_line()
+        if(choice == EXIT_CHOICE):
+            break
+
+    return countries_selected
 
 # Prompt user to enter month and year
 def input_month(prompt: str, min=1, max=12) -> int:
