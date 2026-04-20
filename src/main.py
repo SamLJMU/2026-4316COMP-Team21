@@ -1,4 +1,4 @@
-from input import getIntegerRange
+from input import input_integer
 from classes.file_io import FileIO
 from utility.console_print import clear_console, print_line
 from classes.visualisations_manager import VisualisationManager 
@@ -18,9 +18,7 @@ def display_main_menu(vis_manager: VisualisationManager):
     while True:
         vis_manager.displayOptions()
 
-        selectedIndex = getIntegerRange(
-            "Choose your option: ", vis_manager.min_option, vis_manager.max_option
-        )
+        selectedIndex = input_integer("Choose your option: ", vis_manager.min_option, vis_manager.max_option)
         if selectedIndex == vis_manager.min_option:
             clear_console()
             break

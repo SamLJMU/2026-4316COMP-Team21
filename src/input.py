@@ -1,11 +1,12 @@
 from utility.console_print import print_info, print_warning
 from classes.constants import ANSIColors, TimeframesEnum
+from pandas import Period, to_datetime
+from datetime import date
 from utility.general import (
     get_year_min_and_max,
     get_min_and_max_dates,
     get_countries_list,
 )
-from pandas import Period
 from classes.file_io import FileIO
 
 
@@ -28,6 +29,17 @@ def getIntegerRange(prompt, min, max) -> int:
                 "Only numerical integers are allowed as input. Please try again"
             )
     return user_input
+
+# Asks user whether they want to filter by country or not
+def input_filter_by_country() -> int:
+    print_info("Filter by country ?")
+    options = ["No", "Yes"]
+
+    for index, option in enumerate(options):
+        print(f"{index}: {option}")
+
+    choice = input_integer("Input: ", 0, len(options) - 1)
+    return bool(choice)
 
 # Prompts user to enter a country, if input is not within countries list reject it and prompt again
 def input_country() -> str:
@@ -54,13 +66,31 @@ def input_country() -> str:
 # Prompt user to enter month and year
 def input_month(prompt: str, min=1, max=12) -> int:
     print_info(f"Month range available: {min} - {max}")
-    return getIntegerRange(prompt, min, max)
+    return input_integer(prompt, min, max)
 
 
 def input_year(prompt: str) -> int:
     min_date, max_date = get_min_and_max_dates()
     print_info(f"Year range available: {min_date.year} - {max_date.year}")
-    return getIntegerRange(prompt, min_date.year, max_date.year)
+    return input_integer(prompt, min_date.year, max_date.year)
+
+def input_full_date(prompt: str, comparison_date: date, lower_expected = False) -> date:
+    user_input = None
+    pd_date_format = "%d-%m-%Y"
+    text_date_format = "DD-MM-YYYY"
+    while True:
+        user_input = input(ANSIColors.color_str(prompt, ANSIColors.BLUE)).strip()
+        try:
+            date_input = to_datetime(user_input, format=pd_date_format).date()
+
+            if(date_input < comparison_date and lower_expected):
+                print_warning(f"ERROR: date input should not be earlier than {comparison_date}.")
+            elif(date_input > comparison_date and not lower_expected):
+                print_warning(f"ERROR: date input should not be later than {comparison_date}.")
+            else:
+                return date_input
+        except:
+            print_warning(f"ERROR: input should be in format {text_date_format}")
 
 
 # Return a tuple consisting of the starting timestamp and ending timestamp (e.g. "2025-01-01", "2025-12-31")
@@ -115,7 +145,17 @@ def input_timeframe(prompt: str) -> tuple:
             return (f"{year}-{month}-01", f"{year}-{month}-{last_date}")
 
         case TimeframesEnum.FULL_DATE:
-            raise NotImplementedError
+            while True:
+                # validate start is not earlier than min, and similar for end
+                start_date = input_full_date("Start Date: ", min_date, lower_expected=True)
+                end_date = input_full_date("End Date: ", max_date, lower_expected=False)
+
+                # validate start < end
+                if(start_date > end_date):
+                    print_warning("ERROR: Start date should be earlier than End Date.")
+                else:
+                    return (f"{start_date.year}-{start_date.month}-{start_date.day}",
+                            f"{end_date.year}-{end_date.month}-{end_date.day}")
 
         case TimeframesEnum.NONE:
             return (
@@ -124,4 +164,17 @@ def input_timeframe(prompt: str) -> tuple:
             )
 
         case _:
-            raise Exception(f"Unhandled Timeframe Type: {timeframe_input}")
+            raise Exception(f"Unhandled Timeframe Type: {timeframe_input}")    
+
+def input_pollution_type(prompt: str) -> str:
+    air_quality_column = "air_quality_"
+    particle_types = ["PM2.5", "PM10"]
+
+    print_info("Pollution Types available: ")
+    for index, particle in enumerate(particle_types):
+        print(f"{index}: {particle}")
+
+    user_choice = input_integer(prompt, 0, len(particle_types) - 1)
+    particle_chosen = particle_types[user_choice]
+
+    return f"{air_quality_column}{particle_chosen}"
