@@ -18,7 +18,7 @@ def air_quality_over_time():
     filter_by_country = input_filter_by_country()
     country = None
     if(filter_by_country):
-        country = input_country("Enter a country name: ", "Country not found. Try again")
+        country = input_country()
 
     print_line()
     timeframe = input_timeframe("Desired timeframe filter: ")

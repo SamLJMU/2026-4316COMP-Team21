@@ -11,7 +11,7 @@ from classes.file_io import FileIO
 
 
 # Prompt user to enter an integer within range min and max inclusive
-def getIntegerRange(prompt, min, max) -> int:
+def input_integer(prompt, min, max) -> int:
     user_input = 0
     while True:
         user_input = input(ANSIColors.color_str(prompt, ANSIColors.BLUE))
@@ -43,12 +43,12 @@ def input_filter_by_country() -> int:
 
 # Prompts user to enter a country, if input is not within countries list reject it and prompt again
 def input_country() -> str:
-    all_countries = sorted(FileIO.dataset_df["country"].unique().tolist())
+    all_countries = FileIO.dataset_df["country"].unique()
     
     while True:
         user_input = input(ANSIColors.color_str("Enter a country name: ", ANSIColors.BLUE)).strip()
         
-        matches = [c for c in all_countries if user_input.lower() in c.lower()]
+        matches = [c for c in all_countries if user_input.upper() in c]
         
         if len(matches) == 1:
             print(f"Selected: {matches[0]}")
