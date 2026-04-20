@@ -3,6 +3,7 @@ import matplotlib.pyplot as mpl
 import matplotlib.dates as mdates
 import pandas as pd
 import matplotlib.ticker as ticker
+from input import input_country
 
 def format_moon_illumination(illumination_percentage, tick_number):
     return f"{illumination_percentage}%"
@@ -11,19 +12,8 @@ def format_moon_illumination(illumination_percentage, tick_number):
 def moon_illumination():
     # Get dataset
     df = FileIO.dataset_df[["country", "last_updated", "moon_illumination"]]
-    df["country"] = df["country"].str.strip().str.title()
 
-    country = "Italy"
-
-    # prompt user for name of country (filter), validate input
-    while True:
-        country_selection = input("Choose a country, make sure to type the name correctly!\n")
-        if country_selection.strip().title() in df["country"].values:
-            country = country_selection.strip().title()
-            print(f"You selected: {country}")
-            break
-        else:
-            print("Country not found, have you typed the name correctly?")
+    country = input_country()
 
     # process data per name of country (filter)
     filtered_df = df[df["country"] == country]
