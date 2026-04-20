@@ -28,6 +28,7 @@ The requirements are:
 - Relation between Temperature and Feels like Temperature
 - Air quality by country
 - Sunrise and sunset time by country/latitude
+- Daily Maximum UV Index over Time by Country
 
 # Branches
 

@@ -1,6 +1,7 @@
 import pandas as pd
 from utility.row_transformations import string_time_to_minutes
 
+
 class FileIO:
     # Private dataset static variable can either be None or a DataFrame object
     dataset_df: None | pd.DataFrame = None
