@@ -68,6 +68,7 @@ def input_multiple_countries(max_input: None|int = None) -> str:
     while True:
         country = input_country()
 
+        # Checks that country was not already input
         if(country in countries_selected):
             print_warning("Country input has already been selected.")
         else:
@@ -75,16 +76,19 @@ def input_multiple_countries(max_input: None|int = None) -> str:
             if(max_input is not None and max_input == len(countries_selected)):
                 break
 
-        EXIT_CHOICE = 1
-        STAY_CHOICE = 0
-        print(f"{STAY_CHOICE} - Select additional country")
-        print(f"{EXIT_CHOICE} - Exit country selection")
-        
-        choice = input_integer("Choice: ", STAY_CHOICE, EXIT_CHOICE)
+        # If not maximum input was assigned, prompt whether to add more or not
+        if(max_input is None):
+            EXIT_CHOICE = 1
+            STAY_CHOICE = 0
+            print(f"{STAY_CHOICE} - Select additional country")
+            print(f"{EXIT_CHOICE} - Exit country selection")
+            
+            choice = input_integer("Choice: ", STAY_CHOICE, EXIT_CHOICE)
 
+            if(choice == EXIT_CHOICE):
+                break
+        
         print_line()
-        if(choice == EXIT_CHOICE):
-            break
 
     return countries_selected
 

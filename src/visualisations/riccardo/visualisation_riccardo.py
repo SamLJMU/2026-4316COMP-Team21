@@ -4,7 +4,7 @@ import matplotlib.pyplot as mpl
 import matplotlib.dates as mdates
 import pandas as pd
 import matplotlib.ticker as ticker
-from input import input_country
+from input import input_country, input_multiple_countries
 
 def minutes_to_military(total_minutes, tick_number):
     hours = int(total_minutes // 60)
@@ -15,7 +15,6 @@ def minutes_to_military(total_minutes, tick_number):
 def daylight_hours():
     # Get dataset
     df = FileIO.dataset_df[["country", "last_updated", "sunrise", "sunset"]]
-    df["country"] = df["country"].str.strip().str.title()
 
     country = "Italy"
     country_2 = "United Kingdom"
@@ -23,28 +22,17 @@ def daylight_hours():
     
     # prompt user for name of country (filter), validate input
     while True:
-        country_selection = input("Choose a country, make sure to type the name correctly!\n")
-        if country_selection.strip().title() in df["country"].values:
-            country = country_selection.strip().title()
-            print(f"You selected: {country}")
-            break
-        else:
-            print("Country not found, have you typed the name correctly?")
- 
-    # prompt user for name of second country (filter), validate input
-    while True:
-        answer = input("Would you like to choose a second country to compare the results?\n")
+        answer = input("Would you like to compare results of two countries?\n")
         if answer.upper() == "YES" or answer.upper() == "Y":
-            country_selection_2 = input("Choose a second country, make sure to type the name correctly!\n")
-            if country_selection_2.strip().title() in df["country"].values:
-                country_2 = country_selection_2.strip().title()
-                compare_countries = True
-                print(f"I will compare {country} and {country_2}")
-                break
-            else:
-                print("Country not found, have you typed the name correctly?")
+            compare_countries = True
+            countries = input_multiple_countries(max_input=2)
+            country = countries[0]
+            country_2 = countries[1]
+            break
+
         elif answer.upper() == "NO" or answer.upper() == "N":
-            print(f"Perfect, I will only show you the daylight hours of {country}\n")
+            print(f"Perfect, I will only show you the daylight hours of one country\n")
+            country = input_country()
             break
         else:
             print("Error, was there a typo? Make sure to type either \"Yes\" or \"No\"\n")
