@@ -15,3 +15,4 @@ class FileIO:
         cls.dataset_df["last_updated_date_time"] = pd.to_datetime(cls.dataset_df["last_updated_epoch"], unit='s')
         cls.dataset_df["sunrise_time"] = cls.dataset_df["sunrise"].apply(string_time_to_minutes)
         cls.dataset_df["sunset_time"] = cls.dataset_df["sunset"].apply(string_time_to_minutes)
+        cls.dataset_df["country"] = cls.dataset_df["country"].apply(str.upper)

@@ -1,7 +1,8 @@
 from utility.console_print import print_info, print_warning, print_success, clear_console
 from classes.constants import ANSIColors, TimeframesEnum
 from utility.general import get_year_min_and_max, get_min_and_max_dates, get_countries_list
-from pandas import Period
+from pandas import Period, to_datetime
+from datetime import date
 
 # Prompts user to enter an integer within range min and max inclusive
 def input_integer(prompt, min, max) -> int:
@@ -38,7 +39,7 @@ def input_country(prompt: str, err_msg: str) -> str:
     user_input = ""
     while not exit:
         user_input = input(ANSIColors.color_str(prompt, ANSIColors.BLUE))
-        user_input = user_input.title()
+        user_input = user_input.upper()
         if(user_input in accepted_input):
             exit = True
         else:
@@ -54,6 +55,24 @@ def input_year(prompt: str) -> int:
     min_date, max_date = get_min_and_max_dates()
     print_info(f"Year range available: {min_date.year} - {max_date.year}")
     return input_integer(prompt, min_date.year, max_date.year)
+
+def input_full_date(prompt: str, comparison_date: date, lower_expected = False) -> date:
+    user_input = None
+    pd_date_format = "%d-%m-%Y"
+    text_date_format = "DD-MM-YYYY"
+    while True:
+        user_input = input(ANSIColors.color_str(prompt, ANSIColors.BLUE)).strip()
+        try:
+            date_input = to_datetime(user_input, format=pd_date_format).date()
+
+            if(date_input < comparison_date and lower_expected):
+                print_warning(f"ERROR: date input should not be earlier than {comparison_date}.")
+            elif(date_input > comparison_date and not lower_expected):
+                print_warning(f"ERROR: date input should not be later than {comparison_date}.")
+            else:
+                return date_input
+        except:
+            print_warning(f"ERROR: input should be in format {text_date_format}")
 
 # Returns a tuple consisting of the starting timestamp and ending timestamp
 # Example output -> ("2025-01-01", "2025-12-31")
@@ -108,7 +127,17 @@ def input_timeframe(prompt: str) -> tuple:
                     f"{year}-{month}-{last_date}")
         
         case TimeframesEnum.FULL_DATE:
-            raise NotImplementedError
+            while True:
+                # validate start is not earlier than min, and similar for end
+                start_date = input_full_date("Start Date: ", min_date, lower_expected=True)
+                end_date = input_full_date("End Date: ", max_date, lower_expected=False)
+
+                # validate start < end
+                if(start_date > end_date):
+                    print_warning("ERROR: Start date should be earlier than End Date.")
+                else:
+                    return (f"{start_date.year}-{start_date.month}-{start_date.day}",
+                            f"{end_date.year}-{end_date.month}-{end_date.day}")
 
         case TimeframesEnum.NONE:
             return (f"{min_date.year}-{min_date.month}-{min_date.day}",

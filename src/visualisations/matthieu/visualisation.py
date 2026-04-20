@@ -51,11 +51,12 @@ def air_quality_over_time():
     plot_scatter(ax, x, y, scatter_color="y", line_color="r", labels=labels)
 
     # Window settings
-    window_width = 12
-    window_height = 8
+    window_width = 10
+    window_height = 6
     fig.canvas.manager.set_window_title("Air Pollution relation to Temperature (C) and Wind Speed")
     fig.set_figwidth(window_width)
     fig.set_figheight(window_height)
+    fig.tight_layout()
     
     # Display
     mpl.show()
