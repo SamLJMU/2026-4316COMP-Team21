@@ -1,15 +1,17 @@
-from utility.console_print import print_info, print_warning
+from utility.console_print import print_info, print_warning, print_line
 from classes.constants import ANSIColors, TimeframesEnum
+from pandas import Period, to_datetime
+from datetime import date
 from utility.general import (
     get_year_min_and_max,
     get_min_and_max_dates,
     get_countries_list,
 )
-from pandas import Period
+from classes.file_io import FileIO
 
 
 # Prompt user to enter an integer within range min and max inclusive
-def getIntegerRange(prompt, min, max) -> int:
+def input_integer(prompt, min, max) -> int:
     user_input = 0
     while True:
         user_input = input(ANSIColors.color_str(prompt, ANSIColors.BLUE))
@@ -28,32 +30,96 @@ def getIntegerRange(prompt, min, max) -> int:
             )
     return user_input
 
+# Asks user whether they want to filter by country or not
+def input_filter_by_country() -> int:
+    print_info("Filter by country ?")
+    options = ["No", "Yes"]
 
-# Prompt user to enter a country, if input isn't within list of countries reject it and prompt again
-def input_country(prompt: str, err_msg: str) -> str:
-    accepted_input = get_countries_list()
-    user_input = ""
+    for index, option in enumerate(options):
+        print(f"{index}: {option}")
+
+    choice = input_integer("Input: ", 0, len(options) - 1)
+    return bool(choice)
+
+# Prompts user to enter a country, if input is not within countries list reject it and prompt again
+def input_country() -> str:
+    all_countries = FileIO.dataset_df["country"].unique()
+    
     while True:
-        user_input = input(ANSIColors.color_str(prompt, ANSIColors.BLUE))
-        user_input = user_input.title()
-        if user_input in accepted_input:
-            break
+        user_input = input(ANSIColors.color_str("Enter a country name: ", ANSIColors.BLUE)).strip()
+        
+        matches = [c for c in all_countries if user_input.upper() in c]
+        
+        if len(matches) == 1:
+            print(f"Selected: {matches[0]}")
+            return matches[0]
+        
+        elif len(matches) > 1:
+            print("Did you mean one of these?")
+            for country in matches:
+                print(f"  - {country}")
+        
         else:
-            print_warning(err_msg)
+            print_warning("Country not found. Try again")
 
-    return user_input
+def input_multiple_countries(max_input: None|int = None) -> str:
+    countries_selected = []
 
+    while True:
+        country = input_country()
+
+        # Checks that country was not already input
+        if(country in countries_selected):
+            print_warning("Country input has already been selected.")
+        else:
+            countries_selected.append(country)
+            if(max_input is not None and max_input == len(countries_selected)):
+                break
+
+        # If not maximum input was assigned, prompt whether to add more or not
+        if(max_input is None):
+            EXIT_CHOICE = 1
+            STAY_CHOICE = 0
+            print(f"{STAY_CHOICE} - Select additional country")
+            print(f"{EXIT_CHOICE} - Exit country selection")
+            
+            choice = input_integer("Choice: ", STAY_CHOICE, EXIT_CHOICE)
+
+            if(choice == EXIT_CHOICE):
+                break
+        
+        print_line()
+
+    return countries_selected
 
 # Prompt user to enter month and year
 def input_month(prompt: str, min=1, max=12) -> int:
     print_info(f"Month range available: {min} - {max}")
-    return getIntegerRange(prompt, min, max)
+    return input_integer(prompt, min, max)
 
 
 def input_year(prompt: str) -> int:
     min_date, max_date = get_min_and_max_dates()
     print_info(f"Year range available: {min_date.year} - {max_date.year}")
-    return getIntegerRange(prompt, min_date.year, max_date.year)
+    return input_integer(prompt, min_date.year, max_date.year)
+
+def input_full_date(prompt: str, comparison_date: date, lower_expected = False) -> date:
+    user_input = None
+    pd_date_format = "%d-%m-%Y"
+    text_date_format = "DD-MM-YYYY"
+    while True:
+        user_input = input(ANSIColors.color_str(prompt, ANSIColors.BLUE)).strip()
+        try:
+            date_input = to_datetime(user_input, format=pd_date_format).date()
+
+            if(date_input < comparison_date and lower_expected):
+                print_warning(f"ERROR: date input should not be earlier than {comparison_date}.")
+            elif(date_input > comparison_date and not lower_expected):
+                print_warning(f"ERROR: date input should not be later than {comparison_date}.")
+            else:
+                return date_input
+        except:
+            print_warning(f"ERROR: input should be in format {text_date_format}")
 
 
 # Return a tuple consisting of the starting timestamp and ending timestamp (e.g. "2025-01-01", "2025-12-31")
@@ -108,7 +174,18 @@ def input_timeframe(prompt: str) -> tuple:
             return (f"{year}-{month}-01", f"{year}-{month}-{last_date}")
 
         case TimeframesEnum.FULL_DATE:
-            raise NotImplementedError
+            # trying to make github detect this change
+            while True:
+                # validate start is not earlier than min, and similar for end
+                start_date = input_full_date("Start Date: ", min_date, lower_expected=True)
+                end_date = input_full_date("End Date: ", max_date, lower_expected=False)
+
+                # validate start < end
+                if(start_date > end_date):
+                    print_warning("ERROR: Start date should be earlier than End Date.")
+                else:
+                    return (f"{start_date.year}-{start_date.month}-{start_date.day}",
+                            f"{end_date.year}-{end_date.month}-{end_date.day}")
 
         case TimeframesEnum.NONE:
             return (
@@ -117,4 +194,17 @@ def input_timeframe(prompt: str) -> tuple:
             )
 
         case _:
-            raise Exception(f"Unhandled Timeframe Type: {timeframe_input}")
+            raise Exception(f"Unhandled Timeframe Type: {timeframe_input}")    
+
+def input_pollution_type(prompt: str) -> str:
+    air_quality_column = "air_quality_"
+    particle_types = ["PM2.5", "PM10"]
+
+    print_info("Pollution Types available: ")
+    for index, particle in enumerate(particle_types):
+        print(f"{index}: {particle}")
+
+    user_choice = input_integer(prompt, 0, len(particle_types) - 1)
+    particle_chosen = particle_types[user_choice]
+
+    return f"{air_quality_column}{particle_chosen}"

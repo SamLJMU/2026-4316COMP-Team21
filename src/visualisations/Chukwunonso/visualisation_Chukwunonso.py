@@ -1,38 +1,7 @@
 from classes.file_io import FileIO
 import matplotlib.pyplot as mpl
 import pandas as pd
-from input import input_country
-
-
-def input_country():
-    all_countries = sorted(FileIO.dataset_df["country"].unique().tolist())
-
-    while True:
-        print("\nAvailable countries:")
-        for country in all_countries:
-            print(f"  - {country}")
-
-        user_input = input("Enter a country name: ").strip()
-
-        matches = [c for c in all_countries if user_input.lower() in c.lower()]
-
-        if len(matches) == 1:
-            print(f"Selected: {matches[0]}")
-            return matches[0]
-
-        elif len(matches) > 1:
-            print(f"\nDid you mean one of these?")
-            for country in matches:
-                print(f"  - {country}")
-            user_input = input("Enter a country name: ").strip()
-
-            exact = [c for c in matches if c.lower() == user_input.lower()]
-            if exact:
-                print(f"Selected: {exact[0]}")
-                return exact[0]
-
-        else:
-            print("Country not found. Try again")
+from input import input_country, input_timeframe
 
 
 def temperature_celsius_to_feels_like_celsius():
@@ -47,16 +16,23 @@ def temperature_celsius_to_feels_like_celsius():
     ]
     # Get country from user
     country = input_country()
-    
+    timeframe = input_timeframe("Desired timeframe: ")
     # Process data per filter
     df = df[df["country"] == country]
-    df = df.loc[(df["last_updated_date_time"] >= "2024-01-01")]
+    df["last_updated_date_time"] = pd.to_datetime(df["last_updated_date_time"])
+    df = df.loc[(df["last_updated_date_time"] >= timeframe[0]) & (df["last_updated_date_time"] <= timeframe[1])]
 
     # Visualise via matplotlib
-    fig, ax = mpl.subplots()
-    ax.plot(
-        df["last_updated_date_time"], df["temperature_celsius"], label="Temperature"
-    )
-    ax.plot(df["last_updated_date_time"], df["feels_like_celsius"], label="Feels Like")
+    fig, ax = mpl.subplots(figsize=(12, 6))
+    ax.plot(df["last_updated_date_time"], df["temperature_celsius"], label="Temperature", marker=".")
+    ax.plot(df["last_updated_date_time"], df["feels_like_celsius"], label="Feels Like", marker=".")
+    ax.fill_between(df["last_updated_date_time"], df["temperature_celsius"], df["feels_like_celsius"], alpha=0.2)
+    ax.set_title("Temperature vs Feels Like by Month per Country")
+    ax.set_xlabel("Date")
+    ax.set_ylabel("Temperature (°C)")
     ax.legend()
+    ax.xaxis.grid(True)
+    ax.yaxis.grid(True)
+    fig.autofmt_xdate()
+    mpl.tight_layout()
     mpl.show()
