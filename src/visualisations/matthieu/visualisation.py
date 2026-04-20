@@ -15,10 +15,7 @@ def air_quality_over_time():
     pollution_type = input_pollution_type("Pollution type: ")
     print_line()
 
-    filter_by_country = input_filter_by_country()
-    country = None
-    if(filter_by_country):
-        country = input_country()
+    country = input_country()
 
     print_line()
     timeframe = input_timeframe("Desired timeframe filter: ")
@@ -29,8 +26,7 @@ def air_quality_over_time():
     df = FileIO.dataset_df[["country", "last_updated_date_time", pollution_type, temperature_column, wind_speed_column]]
 
     # Process data per filter
-    if(filter_by_country):
-        df = df[df["country"] == country]
+    df = df[df["country"] == country]
     df = df.loc[(df["last_updated_date_time"] >= timeframe[0]) & (df["last_updated_date_time"] <= timeframe[1])]
 
     # Visualise via matplotlib

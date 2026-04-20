@@ -5,6 +5,8 @@ from visualisations.guinness.guinness_vis import air_quality_by_country_over_tim
 from visualisations.joseph.joseph_vis import avg_temp_by_country_over_time
 from visualisations.Chukwunonso.visualisation_Chukwunonso import temperature_celsius_to_feels_like_celsius
 from visualisations.Chukwunonso.visualisation_Chukwunonso2 import Wind_mph_to_gust_mph
+from visualisations.Daniels.daniels_vis import userdata_wind_speed
+from visualisations.Daniels.daniels_vis2 import userdata_uv_index
 
 function_map = {
     'matthieu_1': air_quality_over_time,
@@ -13,5 +15,7 @@ function_map = {
     'guinness_1': air_quality_by_country_over_time,
     'joseph_1': avg_temp_by_country_over_time,
     'chukwunonso_1': temperature_celsius_to_feels_like_celsius,
-    'chukwunonso_2': Wind_mph_to_gust_mph
+    'chukwunonso_2': Wind_mph_to_gust_mph,
+    'daniels_1' : userdata_wind_speed,
+    'daniels_2' : userdata_uv_index
 }

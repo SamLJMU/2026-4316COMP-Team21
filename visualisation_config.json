@@ -26,5 +26,13 @@
     {
         "key": "chukwunonso_2",
         "msg": "Wind to Gust Relation"
+    },
+    {
+        "key": "daniels_1",
+        "msg": "Wind Speed by Country over Time"
+    },
+    {
+        "key": "daniels_2",
+        "msg": "Daily Maximum UV Index by Country over Time"
     }
 ]
