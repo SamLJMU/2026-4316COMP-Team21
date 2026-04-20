@@ -1,4 +1,4 @@
-# Converts string time (e.g. "4:30 AM", "10:30 PM") to minutes
+# Convert string time (e.g. "4:30 AM", "10:30 PM") to minutes
 def string_time_to_minutes(time: str) -> int:
     if not isinstance(time, str):
         return None
