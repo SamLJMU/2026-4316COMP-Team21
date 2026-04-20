@@ -6,6 +6,7 @@ from utility.general import (
     get_countries_list,
 )
 from pandas import Period
+from classes.file_io import FileIO
 
 
 # Prompt user to enter an integer within range min and max inclusive
@@ -28,20 +29,26 @@ def getIntegerRange(prompt, min, max) -> int:
             )
     return user_input
 
-
-# Prompt user to enter a country, if input isn't within list of countries reject it and prompt again
-def input_country(prompt: str, err_msg: str) -> str:
-    accepted_input = get_countries_list()
-    user_input = ""
+# Prompts user to enter a country, if input is not within countries list reject it and prompt again
+def input_country() -> str:
+    all_countries = sorted(FileIO.dataset_df["country"].unique().tolist())
+    
     while True:
-        user_input = input(ANSIColors.color_str(prompt, ANSIColors.BLUE))
-        user_input = user_input.title()
-        if user_input in accepted_input:
-            break
+        user_input = input(ANSIColors.color_str("Enter a country name: ", ANSIColors.BLUE)).strip()
+        
+        matches = [c for c in all_countries if user_input.lower() in c.lower()]
+        
+        if len(matches) == 1:
+            print(f"Selected: {matches[0]}")
+            return matches[0]
+        
+        elif len(matches) > 1:
+            print("Did you mean one of these?")
+            for country in matches:
+                print(f"  - {country}")
+        
         else:
-            print_warning(err_msg)
-
-    return user_input
+            print_warning("Country not found. Try again")
 
 
 # Prompt user to enter month and year
