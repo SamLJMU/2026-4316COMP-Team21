@@ -3,6 +3,7 @@ import matplotlib.pyplot as mpl
 import matplotlib.dates as mdates
 import pandas as pd
 import matplotlib.ticker as ticker
+from input import input_country
 
 def format_moon_illumination(illumination_percentage, tick_number):
     return f"{illumination_percentage}%"
@@ -10,29 +11,17 @@ def format_moon_illumination(illumination_percentage, tick_number):
 # visualise moon illumination over time by country
 def moon_illumination():
     # Get dataset
-    df = FileIO.dataset_df[["country", "last_updated", "moon_illumination"]]
-    df["country"] = df["country"].str.strip().str.title()
+    df = FileIO.dataset_df[["country", "last_updated_date_time", "moon_illumination"]]
 
-    country = "Italy"
-
-    # prompt user for name of country (filter), validate input
-    while True:
-        country_selection = input("Choose a country, make sure to type the name correctly!\n")
-        if country_selection.strip().title() in df["country"].values:
-            country = country_selection.strip().title()
-            print(f"You selected: {country}")
-            break
-        else:
-            print("Country not found, have you typed the name correctly?")
+    country = input_country()
 
     # process data per name of country (filter)
     filtered_df = df[df["country"] == country]
-    filtered_df["last_updated"] = pd.to_datetime(filtered_df["last_updated"])
-    filtered_df = filtered_df.loc[(filtered_df["last_updated"] >= "2026-1-1")]
+    filtered_df = filtered_df.loc[(filtered_df["last_updated_date_time"] >= "2026-1-1")]
 
     # Visualise via matplotlib
     fig, ax = mpl.subplots()
-    ax.plot(filtered_df["last_updated"], filtered_df["moon_illumination"], color = 'blue', label = country, marker = 'o')
+    ax.plot(filtered_df["last_updated_date_time"], filtered_df["moon_illumination"], color = 'blue', label = country, marker = 'o')
 
     ax.xaxis.set_major_locator(ticker.MaxNLocator(nbins=25))
     ax.yaxis.set_major_formatter(mpl.FuncFormatter(format_moon_illumination))

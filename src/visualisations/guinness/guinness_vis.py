@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from classes.file_io import FileIO
+from input import input_multiple_countries
 
 def air_quality_by_country_over_time():
     df = FileIO.dataset_df
@@ -85,67 +86,9 @@ def air_quality_by_country_over_time():
     current_page = 0
     total_pages = (len(available_countries) + page_size - 1) // page_size
 
-    # Pagination loop for countries
-    selected_countries = []
-    while True:
-        start = current_page * page_size
-        end = start + page_size
-        page_countries = available_countries[start:end]
+    # Countries input for filtering
+    selected_countries = input_multiple_countries()
     
-        if selected_countries:
-            print(f"\nSelected countries: {', '.join(selected_countries)}")
-
-        print(f"\nPage {current_page + 1} of {(len(available_countries) + page_size - 1) // page_size}:")
-        for i, country in enumerate(page_countries, 1):
-            print(f"{i}. {country}")
-    
-        print("\nOptions: 'next', 'prev', 'done', 'help', or pick by page number/country name.")
-        choice = input("Your choice: ").strip()
-        choice_lower = choice.lower()
-    
-        if choice_lower == 'help':
-            print("\nEnter 'next'/'prev' to browse pages, 'done' to finish, page number (1-10) to select by position, or country name to add/remove from selection.")
-            continue
-        if choice_lower == 'help':
-            print("\nEnter 'next'/'prev' to browse, 'done' to finish, page number (1-10) or country name.")
-            continue
-        if choice_lower == 'next':
-            current_page = (current_page + 1) % total_pages
-            continue
-        if choice_lower == 'prev':
-            current_page = (current_page - 1) % total_pages
-            continue
-        if choice_lower == 'done':
-            break
-
-        if choice.isdigit() and 1 <= int(choice) <= len(page_countries):
-            exact_country = page_countries[int(choice) - 1]
-        elif choice_lower in [c.lower() for c in available_countries]:
-            exact_country = next(c for c in available_countries if c.lower() == choice_lower)
-        elif choice == '':
-            print("\nInvalid choice. Try again. Please enter a country name, page number, or command (next/prev/done/help).")
-            continue
-        else:
-            similar = [c for c in available_countries if choice_lower in c.lower()]
-            if len(similar) == 1:
-                exact_country = similar[0]
-                if exact_country in selected_countries:
-                    selected_countries.remove(exact_country)
-                    print(f"Removed {exact_country} (auto-match)")
-                else:
-                    selected_countries.append(exact_country)
-                    print(f"Added {exact_country} (auto-match)")
-            else:
-                print(f"\nInvalid choice. Try again. Similar countries: {similar[:10]}")
-            continue
-
-        if exact_country in selected_countries:
-            selected_countries.remove(exact_country)
-            print(f"\nRemoved {exact_country}")
-        else:
-            selected_countries.append(exact_country)
-            print(f"\nAdded {exact_country}")
-
     # Convert selected index column to numeric (coerce non-numeric values)
     df[selected_index] = pd.to_numeric(df[selected_index], errors='coerce')
 
