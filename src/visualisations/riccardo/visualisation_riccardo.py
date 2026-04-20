@@ -14,7 +14,7 @@ def minutes_to_military(total_minutes, tick_number):
 # visualise daylight hours over time by country
 def daylight_hours():
     # Get dataset
-    df = FileIO.dataset_df[["country", "last_updated", "sunrise", "sunset"]]
+    df = FileIO.dataset_df[["country", "last_updated_date_time", "sunrise", "sunset"]]
 
     country = "Italy"
     country_2 = "United Kingdom"
@@ -39,15 +39,13 @@ def daylight_hours():
 
     # process data per name of country (filter)
     filtered_df = df[df["country"] == country]
-    filtered_df["last_updated"] = pd.to_datetime(filtered_df["last_updated"])
-    filtered_df = filtered_df.loc[(filtered_df["last_updated"] >= "2025-1-1")]
-    filtered_df = filtered_df[filtered_df["last_updated"].dt.day == 1]
+    filtered_df = filtered_df.loc[(filtered_df["last_updated_date_time"] >= "2025-1-1")]
+    filtered_df = filtered_df[filtered_df["last_updated_date_time"].dt.day == 1]
 
     if compare_countries == True:
         filtered_df_2 = df[df["country"] == country_2]
-        filtered_df_2["last_updated"] = pd.to_datetime(filtered_df_2["last_updated"])
-        filtered_df_2 = filtered_df_2.loc[(filtered_df_2["last_updated"] > "2025-1-1")]
-        filtered_df_2 = filtered_df_2[filtered_df_2["last_updated"].dt.day == 1]
+        filtered_df_2 = filtered_df_2.loc[(filtered_df_2["last_updated_date_time"] > "2025-1-1")]
+        filtered_df_2 = filtered_df_2[filtered_df_2["last_updated_date_time"].dt.day == 1]
 
 
 
@@ -75,9 +73,9 @@ def daylight_hours():
 
     # Visualise via matplotlib
     fig, ax = mpl.subplots()
-    ax.plot(filtered_df["last_updated"], daylight_minutes_list, color = 'blue', label = country, marker = 'o')
+    ax.plot(filtered_df["last_updated_date_time"], daylight_minutes_list, color = 'blue', label = country, marker = 'o')
     if compare_countries == True:
-        ax.plot(filtered_df["last_updated"], daylight_minutes_list_2, color = 'red', label = country_2, marker = 'o')
+        ax.plot(filtered_df["last_updated_date_time"], daylight_minutes_list_2, color = 'red', label = country_2, marker = 'o')
 
     ax.yaxis.set_major_formatter(mpl.FuncFormatter(minutes_to_military))
     ax.yaxis.set_major_locator(ticker.MaxNLocator(nbins=15))
@@ -93,5 +91,5 @@ def daylight_hours():
 
     ax.legend()
 
-    mpl.xticks(filtered_df["last_updated"], rotation=45)
+    mpl.xticks(filtered_df["last_updated_date_time"], rotation=45)
     mpl.show()
