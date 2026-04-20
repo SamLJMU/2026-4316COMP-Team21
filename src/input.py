@@ -145,6 +145,7 @@ def input_timeframe(prompt: str) -> tuple:
             return (f"{year}-{month}-01", f"{year}-{month}-{last_date}")
 
         case TimeframesEnum.FULL_DATE:
+            # trying to make github detect this change
             while True:
                 # validate start is not earlier than min, and similar for end
                 start_date = input_full_date("Start Date: ", min_date, lower_expected=True)
