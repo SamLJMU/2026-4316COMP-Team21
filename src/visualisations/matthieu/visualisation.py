@@ -10,7 +10,7 @@ from input import (
 from utility.console_print import print_line
 from classes.graph_labels import GraphLabels
 
-def air_quality_over_time():
+def air_pollution_relations():
     # Filter Input
     pollution_type = input_pollution_type("Pollution type: ")
     print_line()
@@ -32,18 +32,21 @@ def air_quality_over_time():
     # Visualise via matplotlib
     fig, (ax, ax_) = mpl.subplots(2)
 
+    # Label usage
+    quality_type_label = pollution_type.removeprefix("air_quality_")
+
     # Air Quality per temperature measurements
     ax = mpl.subplot(2, 1, 1)
     x = df[temperature_column]
     y = df[pollution_type]
-    labels = GraphLabels("Air Pollution relations to Temperature Levels", "Temperature (Celcius)", "Air Quality (µg/m3)")
+    labels = GraphLabels(f"Air Pollution {quality_type_label} relations to Temperature Levels", "Temperature (Celcius)", "Air Quality (µg/m3)")
     plot_scatter(ax, x, y, scatter_color="g", line_color="r", labels=labels)
 
     # Air Quality per wind speed measurements
     ax = mpl.subplot(2, 1, 2)
     x = df[wind_speed_column]
     y = df[pollution_type]
-    labels = GraphLabels("Air Pollution relations to Wind Speed", "Wind Speed (mph)", "Air Quality (µg/m3)")
+    labels = GraphLabels(f"Air Pollution {quality_type_label} relations to Wind Speed", "Wind Speed (mph)", "Air Quality (µg/m3)")
     plot_scatter(ax, x, y, scatter_color="y", line_color="r", labels=labels)
 
     # Window settings
