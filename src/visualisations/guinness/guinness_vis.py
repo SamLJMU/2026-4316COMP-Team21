@@ -80,12 +80,6 @@ def air_quality_by_country_over_time():
 
     print(f"✅ Selected: {selected_index.replace('air_quality_', '').replace('_', ' ')}")
 
-    # Get unique countries
-    available_countries = sorted([c.strip() for c in df['country'].unique() if pd.notna(c)])
-    page_size = 10
-    current_page = 0
-    total_pages = (len(available_countries) + page_size - 1) // page_size
-
     # Countries input for filtering
     selected_countries = input_multiple_countries()
     
