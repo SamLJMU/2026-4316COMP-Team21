@@ -42,13 +42,16 @@ def input_filter_by_country() -> int:
     return bool(choice)
 
 # Prompts user to enter a country, if input is not within countries list reject it and prompt again
-def input_country() -> str:
+def input_country(exclude_list: list = None) -> str:
+    if exclude_list is None:
+        exclude_list = []
+        
     all_countries = FileIO.dataset_df["country"].unique()
     
     while True:
         user_input = input(ANSIColors.color_str("Enter a country name: ", ANSIColors.BLUE)).strip()
         
-        matches = [c for c in all_countries if user_input.upper() in c]
+        matches = [c for c in all_countries if user_input.upper() in str(c).upper() and c not in exclude_list]
         
         if len(matches) == 1:
             print(f"Selected: {matches[0]}")
@@ -60,37 +63,152 @@ def input_country() -> str:
                 print(f"  - {country}")
         
         else:
-            print_warning("Country not found. Try again")
+            if any(user_input.upper() in str(c).upper() for c in exclude_list):
+                print_warning("That country has already been selected. Try a different one.")
+            else:
+                print_warning("Country not found. Try again.")
 
-def input_multiple_countries(max_input: None|int = None) -> str:
+def input_multiple_countries(max_input: None|int = None) -> list:
     countries_selected = []
 
     while True:
-        country = input_country()
+        country = input_country(exclude_list=countries_selected)
 
         # Checks that country was not already input
-        if(country in countries_selected):
+        if country in countries_selected:
             print_warning("Country input has already been selected.")
         else:
             countries_selected.append(country)
-            if(max_input is not None and max_input == len(countries_selected)):
+            if max_input is not None and max_input == len(countries_selected):
                 break
 
         # If not maximum input was assigned, prompt whether to add more or not
-        if(max_input is None):
-            EXIT_CHOICE = 1
-            STAY_CHOICE = 0
-            print(f"{STAY_CHOICE} - Select additional country")
-            print(f"{EXIT_CHOICE} - Exit country selection")
-            
-            choice = input_integer("Choice: ", STAY_CHOICE, EXIT_CHOICE)
+        if max_input is None:
+            while True:
+                EXIT_CHOICE = 0
+                STAY_CHOICE = 1
+                REMOVE_CHOICE = 2
+                
+                print(f"{EXIT_CHOICE} - Exit country selection")
+                print(f"{STAY_CHOICE} - Select additional country")
+                
+                # Only show the remove option if there is something to remove
+                if len(countries_selected) > 0:
+                    print(f"{REMOVE_CHOICE} - Remove a selected country")
+                    choice = input_integer("Choice: ", EXIT_CHOICE, REMOVE_CHOICE)
+                else:
+                    choice = input_integer("Choice: ", EXIT_CHOICE, STAY_CHOICE)
 
-            if(choice == EXIT_CHOICE):
-                break
+                if choice == EXIT_CHOICE:
+                    print_line()
+                    return countries_selected
+                
+                elif choice == STAY_CHOICE:
+                    break  # Break inner menu loop to go add another country
+                    
+                elif choice == REMOVE_CHOICE:
+                    print("\n--- Select Country to Remove ---")
+                    for i, c in enumerate(countries_selected):
+                        print(f"{i} - {c}")
+                    
+                    cancel_index = len(countries_selected)
+                    print(f"{cancel_index} - Cancel")
+                    
+                    remove_choice = input_integer("Enter number to remove: ", 0, cancel_index)
+                    
+                    if remove_choice != cancel_index:
+                        removed = countries_selected.pop(remove_choice)
+                        print_info(f"Removed {removed}.")
+                    print_line()
         
         print_line()
 
     return countries_selected
+
+# Prompts user to enter a timezone, if input is not within timezones list reject it and prompt again
+def input_timezone(exclude_list: list = None) -> str:
+    if exclude_list is None:
+        exclude_list = []
+        
+    all_timezones = FileIO.dataset_df["timezone"].unique()
+    
+    while True:
+        user_input = input(ANSIColors.color_str("Enter a timezone: ", ANSIColors.BLUE)).strip()
+        
+        # Checking against str(tz).upper() ensures safe case-insensitive matching
+        matches = [tz for tz in all_timezones if user_input.upper() in str(tz).upper() and tz not in exclude_list]
+        
+        if len(matches) == 1:
+            print(f"Selected: {matches[0]}")
+            return matches[0]
+        
+        elif len(matches) > 1:
+            print("Did you mean one of these?")
+            for tz in matches:
+                print(f"  - {tz}")
+        
+        else:
+            if any(user_input.upper() in str(tz).upper() for tz in exclude_list):
+                print_warning("That timezone has already been selected. Try a different one.")
+            else:
+                print_warning("Timezone not found. Try again.")
+
+def input_multiple_timezones(max_input: None|int = None) -> list:
+    timezones_selected = []
+
+    while True:
+        timezone = input_timezone(exclude_list=timezones_selected)
+
+        # Checks that timezone was not already input
+        if timezone in timezones_selected:
+            print_warning("Timezone input has already been selected.")
+        else:
+            timezones_selected.append(timezone)
+            if max_input is not None and max_input == len(timezones_selected):
+                break
+
+        # If no maximum input was assigned, prompt whether to add more or not
+        if max_input is None:
+            while True:
+                EXIT_CHOICE = 0
+                STAY_CHOICE = 1
+                REMOVE_CHOICE = 2
+                
+                print(f"{EXIT_CHOICE} - Exit timezone selection")
+                print(f"{STAY_CHOICE} - Select additional timezone")
+                
+                # Only show the remove option if there is something to remove
+                if len(timezones_selected) > 0:
+                    print(f"{REMOVE_CHOICE} - Remove a selected timezone")
+                    choice = input_integer("Choice: ", EXIT_CHOICE, REMOVE_CHOICE)
+                else:
+                    choice = input_integer("Choice: ", EXIT_CHOICE, STAY_CHOICE)
+
+                if choice == EXIT_CHOICE:
+                    print_line()
+                    return timezones_selected
+                
+                elif choice == STAY_CHOICE:
+                    break  # Break inner menu loop to go add another timezone
+                    
+                elif choice == REMOVE_CHOICE:
+                    print("\n--- Select Timezone to Remove ---")
+                    for i, tz in enumerate(timezones_selected):
+                        print(f"{i} - {tz}")
+                    
+                    cancel_index = len(timezones_selected)
+                    print(f"{cancel_index} - Cancel")
+                    
+                    remove_choice = input_integer("Enter number to remove: ", 0, cancel_index)
+                    
+                    if remove_choice != cancel_index:
+                        removed = timezones_selected.pop(remove_choice)
+                        print_info(f"Removed {removed}.")
+                    print_line()
+        
+        print_line()
+        
+    return timezones_selected
 
 # Prompt user to enter month and year
 def input_month(prompt: str, min=1, max=12) -> int:
