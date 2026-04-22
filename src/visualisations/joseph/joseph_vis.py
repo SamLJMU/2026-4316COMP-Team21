@@ -53,68 +53,61 @@ def avg_temp_by_country_over_time():
     df = df[(df['period'] >= start_period) & (df['period'] <= end_period)]
     print(f"Using period range: {start_period} to {end_period} (rows: {len(df)})")
 
-    # Available temperature units
-    available_units = [
-        'temperature_celsius',
-        'temperature_fahrenheit',
-    ]
-
-    # Display indices and let user choose
-    print("+" + "-"*19 + "+")
-    print("| Temperature Units |")
-    print("+" + "-"*19 + "+")
-    for i, idx in enumerate(available_units, 1):
-        display_name = idx.replace('temperature_', '').replace('_', ' ')
-        display_name = display_name.capitalize()
-        print(f"{i}. {display_name}")
-
-    while True:
-        choice = input("\nSelect an index by list number: ").strip()
-        if choice.isdigit() and 1 <= int(choice) <= len(available_units):
-            selected_index = available_units[int(choice) - 1]
-            break
-        elif choice.lower() in [idx.lower() for idx in available_units]:
-            selected_index = next(idx for idx in available_units if idx.lower() == choice.lower())
-            break
-        else:
-            print("❌ Invalid choice. Try again.")
-
-    print(f"✅ Selected: {selected_index.replace('temperature_', '').replace('_', ' ').capitalize()}")
-
     print("\n--- Select Timezones ---")
     selected_timezones = input_multiple_timezones()
 
-    # Convert selected index column to numeric (coerce non-numeric values)
-    df[selected_index] = pd.to_numeric(df[selected_index], errors='coerce')
+    # Convert BOTH selected index columns to numeric (coerce non-numeric values)
+    df['temperature_celsius'] = pd.to_numeric(df['temperature_celsius'], errors='coerce')
+    df['temperature_fahrenheit'] = pd.to_numeric(df['temperature_fahrenheit'], errors='coerce')
 
-    # Calculate average temperature for the date range and selected timezones (group by month)
-    avg_temp = df[df['timezone'].isin(selected_timezones)].groupby(['period', 'timezone'])[selected_index].mean().reset_index()
+    # Calculate average temperature for the date range and selected timezones for BOTH units
+    avg_temp = df[df['timezone'].isin(selected_timezones)].groupby(['period', 'timezone'])[['temperature_celsius', 'temperature_fahrenheit']].mean().reset_index()
     avg_temp['month_start'] = avg_temp['period'].apply(lambda p: p.to_timestamp())
 
-    # Now plot average temperature by country for the selected timezones
+    # Now plot average temperature for the selected timezones
     if selected_timezones:
-        plt.figure(figsize=(12,6))
-        ax = plt.gca()
+        # Create a figure with 2 subplots (2 rows, 1 column), sharing the x-axis
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 6), sharex=True)
+        
         for timezone in avg_temp['timezone'].unique():
-            timezone_df = avg_temp[avg_temp['timezone'] == timezone].dropna(subset=[selected_index])
+            timezone_df = avg_temp[avg_temp['timezone'] == timezone]
+            
             if not timezone_df.empty:
                 x = timezone_df['month_start'].dt.to_pydatetime()
-                y = timezone_df[selected_index]
-                ax.plot(x, y, marker='o', label=timezone, linewidth=1.5)
+                
+                # Plot Celsius on the top chart (ax1)
+                y_celsius = timezone_df['temperature_celsius'].dropna()
+                if not y_celsius.empty:
+                    ax1.plot(x[:len(y_celsius)], y_celsius, marker='o', label=timezone, linewidth=1.5)
+                
+                # Plot Fahrenheit on the bottom chart (ax2)
+                y_fahrenheit = timezone_df['temperature_fahrenheit'].dropna()
+                if not y_fahrenheit.empty:
+                    ax2.plot(x[:len(y_fahrenheit)], y_fahrenheit, marker='o', label=timezone, linewidth=1.5)
             else:
-                print(f"\nNo numeric data for {timezone} in {selected_index}")
+                print(f"\nNo numeric data for {timezone}")
 
-        index_name = selected_index.replace('temperature_', '').replace('_', ' ').capitalize()
-        ax.set_title(f'{index_name} Over Time - Selected Timezones')
-        ax.set_xlabel('Month')
-        ax.set_ylabel(index_name)
-        ax.legend()
-        ax.xaxis.set_major_locator(dates.AutoDateLocator())
-        ax.xaxis.set_major_formatter(dates.DateFormatter('%Y-%m'))
-        plt.xticks(rotation=45)
+        # Formatting Top Subplot (Celsius)
+        ax1.set_title('Average Temperature Over Time - Celsius')
+        ax1.set_ylabel('Temperature (°C)')
+        ax1.legend()
+        ax1.grid(True, linestyle='--', alpha=0.6)
+
+        # Formatting Bottom Subplot (Fahrenheit)
+        ax2.set_title('Average Temperature Over Time - Fahrenheit')
+        ax2.set_xlabel('Month')
+        ax2.set_ylabel('Temperature (°F)')
+        ax2.legend()
+        ax2.grid(True, linestyle='--', alpha=0.6)
+
+        # Format the shared X-axis dates
+        ax2.xaxis.set_major_locator(dates.AutoDateLocator())
+        ax2.xaxis.set_major_formatter(dates.DateFormatter('%Y-%m'))
+        plt.setp(ax2.xaxis.get_majorticklabels(), rotation=45)
+
         plt.tight_layout()
         plt.savefig('average_temperature_plot.png')
-        print(f"✅ Plot saved as average_temperature_plot.png for {', '.join(selected_timezones)} - {index_name}")
+        print(f"✅ Plot saved as average_temperature_plot.png for {', '.join(selected_timezones)}")
         plt.show()
     else:
         print("\nNo timezones selected.")
