@@ -66,8 +66,8 @@ def avg_temp_by_country_over_time():
 
     # Now plot average temperature for the selected timezones
     if selected_timezones:
-        # Create a figure with 2 subplots (2 rows, 1 column), sharing the x-axis
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 6), sharex=True)
+        # Create a figure with 2 subplots, shared X-axis
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
         
         for timezone in avg_temp['timezone'].unique():
             timezone_df = avg_temp[avg_temp['timezone'] == timezone]

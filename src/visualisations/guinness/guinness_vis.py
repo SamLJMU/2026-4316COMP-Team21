@@ -81,31 +81,59 @@ def air_quality_by_country_over_time():
     print(f"✅ Selected: {selected_index.replace('air_quality_', '').replace('_', ' ')}")
 
     # Countries input for filtering
+    print("\n--- Select Countries ---")
     selected_countries = input_multiple_countries()
     
-    # Convert selected index column to numeric (coerce non-numeric values)
+    # Convert selected index and humidity columns to numeric (coerce non-numeric values)
     df[selected_index] = pd.to_numeric(df[selected_index], errors='coerce')
+    if 'humidity' in df.columns:
+        df['humidity'] = pd.to_numeric(df['humidity'], errors='coerce')
 
-    # Now plot selected countries for the selected index
+    # Now plot selected countries
     if selected_countries:
-        plt.figure(figsize=(12,6))
+        # Create a figure with 2 subplots, shared X-axis.
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
+        
         for country in selected_countries:
             country_df = df[df['country'].str.lower() == country.lower()]
+            
             if not country_df.empty:
-                country_df = country_df.dropna(subset=[selected_index])
-                if not country_df.empty:
-                    plt.plot(country_df['date'], country_df[selected_index], label=country)
+                # Plot Air Quality on top chart (ax1)
+                aq_df = country_df.dropna(subset=[selected_index])
+                if not aq_df.empty:
+                    ax1.plot(aq_df['date'], aq_df[selected_index], label=country)
                 else:
                     print(f"\nNo numeric data for {country} in {selected_index}")
-    
+                
+                # Plot Humidity on bottom chart (ax2)
+                if 'humidity' in df.columns:
+                    hum_df = country_df.dropna(subset=['humidity'])
+                    if not hum_df.empty:
+                        ax2.plot(hum_df['date'], hum_df['humidity'], label=country)
+                    else:
+                        print(f"\nNo humidity data for {country}")
+                        
         index_name = selected_index.replace('air_quality_', '').replace('_', ' ')
-        plt.title(f'{index_name} Over Time - Selected Countries')
-        plt.xlabel('Date')
-        plt.ylabel(index_name)
-        plt.legend()
+        
+        # Formatting Top Subplot (Air Quality)
+        ax1.set_title(f'{index_name} Over Time - Selected Countries')
+        ax1.set_ylabel(index_name)
+        ax1.legend()
+        ax1.grid(True, linestyle='--', alpha=0.6)
+
+        # Formatting Bottom Subplot (Humidity)
+        ax2.set_title('Humidity Over Time - Selected Countries')
+        ax2.set_xlabel('Date')
+        ax2.set_ylabel('Humidity')
+        ax2.legend()
+        ax2.grid(True, linestyle='--', alpha=0.6)
+
+        # Rotate the dates for better readability
+        fig.autofmt_xdate(rotation=45)
+
         plt.tight_layout()
-        plt.savefig('air_quality_plot.png')
-        print(f"✅ Plot saved as air_quality_plot.png for {', '.join(selected_countries)} - {index_name}")
+        plt.savefig('air_quality_and_humidity_plot.png')
+        print(f"✅ Plot saved as air_quality_and_humidity_plot.png for {', '.join(selected_countries)}")
         plt.show()
     else:
         print("\nNo countries selected.")
