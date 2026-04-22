@@ -108,16 +108,17 @@ def input_multiple_countries(max_input: None|int = None) -> list:
                     
                 elif choice == REMOVE_CHOICE:
                     print("\n--- Select Country to Remove ---")
-                    for i, c in enumerate(countries_selected):
+                    print("0 - Cancel")
+                    
+                    # Start enumerating at 1 so 0 is reserved for Cancel
+                    for i, c in enumerate(countries_selected, start=1):
                         print(f"{i} - {c}")
                     
-                    cancel_index = len(countries_selected)
-                    print(f"{cancel_index} - Cancel")
+                    remove_choice = input_integer("Enter number to remove: ", 0, len(countries_selected))
                     
-                    remove_choice = input_integer("Enter number to remove: ", 0, cancel_index)
-                    
-                    if remove_choice != cancel_index:
-                        removed = countries_selected.pop(remove_choice)
+                    if remove_choice != 0:
+                        # Subtract 1 to get the actual list index
+                        removed = countries_selected.pop(remove_choice - 1)
                         print_info(f"Removed {removed}.")
                     print_line()
         
@@ -193,16 +194,17 @@ def input_multiple_timezones(max_input: None|int = None) -> list:
                     
                 elif choice == REMOVE_CHOICE:
                     print("\n--- Select Timezone to Remove ---")
-                    for i, tz in enumerate(timezones_selected):
+                    print("0 - Cancel")
+                    
+                    # Start enumerating at 1 so 0 is reserved for Cancel
+                    for i, tz in enumerate(timezones_selected, start=1):
                         print(f"{i} - {tz}")
                     
-                    cancel_index = len(timezones_selected)
-                    print(f"{cancel_index} - Cancel")
+                    remove_choice = input_integer("Enter number to remove: ", 0, len(timezones_selected))
                     
-                    remove_choice = input_integer("Enter number to remove: ", 0, cancel_index)
-                    
-                    if remove_choice != cancel_index:
-                        removed = timezones_selected.pop(remove_choice)
+                    if remove_choice != 0:
+                        # Subtract 1 to get the actual list index
+                        removed = timezones_selected.pop(remove_choice - 1)
                         print_info(f"Removed {removed}.")
                     print_line()
         
