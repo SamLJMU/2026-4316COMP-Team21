@@ -77,9 +77,9 @@ def avg_temp_by_country_over_time():
             selected_index = next(idx for idx in available_units if idx.lower() == choice.lower())
             break
         else:
-            print("❌ Invalid choice. Try again.")
+            print("Invalid choice. Try again.")
 
-    print(f"✅ Selected: {selected_index.replace('temperature_', '').replace('_', ' ').capitalize()}")
+    print(f"Selected: {selected_index.replace('temperature_', '').replace('_', ' ').capitalize()}")
 
     print("\n--- Select Timezones ---")
     selected_timezones = input_multiple_timezones()
@@ -144,7 +144,7 @@ def avg_temp_by_country_over_time():
 
         plt.tight_layout()
         plt.savefig('temperature_and_humidity_plot.png')
-        print(f"✅ Plot saved as temperature_and_humidity_plot.png for {', '.join(selected_timezones)}")
+        print(f"Plot saved as temperature_and_humidity_plot.png for {', '.join(selected_timezones)}")
         plt.show()
     else:
         print("\nNo timezones selected.")

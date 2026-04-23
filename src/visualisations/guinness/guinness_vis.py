@@ -80,9 +80,9 @@ def air_quality_by_country_over_time():
             selected_index = next(idx for idx in available_indices if idx.lower() == choice.lower())
             break
         else:
-            print("❌ Invalid choice. Try again.")
+            print("Invalid choice. Try again.")
 
-    print(f"✅ Selected: {selected_index.replace('air_quality_', '').replace('_', ' ')}")
+    print(f"Selected: {selected_index.replace('air_quality_', '').replace('_', ' ')}")
 
     # Countries input for filtering
     print("\n--- Select Countries ---")
@@ -153,7 +153,7 @@ def air_quality_by_country_over_time():
 
         plt.tight_layout()
         plt.savefig('air_quality_and_wind_plot.png')
-        print(f"✅ Plot saved as air_quality_and_wind_plot.png for {', '.join(selected_countries)}")
+        print(f"Plot saved as air_quality_and_wind_plot.png for {', '.join(selected_countries)}")
         plt.show()
     else:
         print("\nNo countries selected.")
