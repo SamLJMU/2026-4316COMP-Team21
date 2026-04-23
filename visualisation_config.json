@@ -13,11 +13,11 @@
     },
     {
         "key": "guinness_1",
-        "msg": "Air Quality by Country over Time"
+        "msg": "Average Air Quality vs. Average Humidity by Country over Time"
     },
     {
         "key": "joseph_1",
-        "msg": "Average Temperature by Timezone over Time"
+        "msg": "Average Temperature vs. Average Humidity by Timezone over Time"
     },
     {
         "key": "chukwunonso_1",
