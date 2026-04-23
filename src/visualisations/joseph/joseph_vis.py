@@ -53,50 +53,87 @@ def avg_temp_by_country_over_time():
     df = df[(df['period'] >= start_period) & (df['period'] <= end_period)]
     print(f"Using period range: {start_period} to {end_period} (rows: {len(df)})")
 
+    # Available temperature units
+    available_units = [
+        'temperature_celsius',
+        'temperature_fahrenheit',
+    ]
+
+    # Display indices and let user choose
+    print("+" + "-"*19 + "+")
+    print("| Temperature Units |")
+    print("+" + "-"*19 + "+")
+    for i, idx in enumerate(available_units, 1):
+        display_name = idx.replace('temperature_', '').replace('_', ' ')
+        display_name = display_name.capitalize()
+        print(f"{i}. {display_name}")
+
+    while True:
+        choice = input("\nSelect an index by list number: ").strip()
+        if choice.isdigit() and 1 <= int(choice) <= len(available_units):
+            selected_index = available_units[int(choice) - 1]
+            break
+        elif choice.lower() in [idx.lower() for idx in available_units]:
+            selected_index = next(idx for idx in available_units if idx.lower() == choice.lower())
+            break
+        else:
+            print("❌ Invalid choice. Try again.")
+
+    print(f"✅ Selected: {selected_index.replace('temperature_', '').replace('_', ' ').capitalize()}")
+
     print("\n--- Select Timezones ---")
     selected_timezones = input_multiple_timezones()
 
-    # Convert BOTH selected index columns to numeric (coerce non-numeric values)
-    df['temperature_celsius'] = pd.to_numeric(df['temperature_celsius'], errors='coerce')
-    df['temperature_fahrenheit'] = pd.to_numeric(df['temperature_fahrenheit'], errors='coerce')
+    # Convert selected temperature and humidity columns to numeric (coerce non-numeric values)
+    df[selected_index] = pd.to_numeric(df[selected_index], errors='coerce')
+    if 'humidity' in df.columns:
+        df['humidity'] = pd.to_numeric(df['humidity'], errors='coerce')
 
-    # Calculate average temperature for the date range and selected timezones for BOTH units
-    avg_temp = df[df['timezone'].isin(selected_timezones)].groupby(['period', 'timezone'])[['temperature_celsius', 'temperature_fahrenheit']].mean().reset_index()
-    avg_temp['month_start'] = avg_temp['period'].apply(lambda p: p.to_timestamp())
+    # Calculate average temperature and humidity for the date range and selected timezones
+    cols_to_average = [selected_index]
+    if 'humidity' in df.columns:
+        cols_to_average.append('humidity')
 
-    # Now plot average temperature for the selected timezones
+    avg_data = df[df['timezone'].isin(selected_timezones)].groupby(['period', 'timezone'])[cols_to_average].mean().reset_index()
+    avg_data['month_start'] = avg_data['period'].apply(lambda p: p.to_timestamp())
+
+    # Now plot average temperature and humidity for the selected timezones
     if selected_timezones:
         # Create a figure with 2 subplots, shared X-axis
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
         
-        for timezone in avg_temp['timezone'].unique():
-            timezone_df = avg_temp[avg_temp['timezone'] == timezone]
+        for timezone in avg_data['timezone'].unique():
+            timezone_df = avg_data[avg_data['timezone'] == timezone]
             
             if not timezone_df.empty:
                 x = timezone_df['month_start'].dt.to_pydatetime()
                 
-                # Plot Celsius on the top chart (ax1)
-                y_celsius = timezone_df['temperature_celsius'].dropna()
-                if not y_celsius.empty:
-                    ax1.plot(x[:len(y_celsius)], y_celsius, marker='o', label=timezone, linewidth=1.5)
+                # Plot Selected Temperature on the top chart (ax1)
+                y_temp = timezone_df[selected_index].dropna()
+                if not y_temp.empty:
+                    ax1.plot(x[:len(y_temp)], y_temp, marker='o', label=timezone, linewidth=1.5)
                 
-                # Plot Fahrenheit on the bottom chart (ax2)
-                y_fahrenheit = timezone_df['temperature_fahrenheit'].dropna()
-                if not y_fahrenheit.empty:
-                    ax2.plot(x[:len(y_fahrenheit)], y_fahrenheit, marker='o', label=timezone, linewidth=1.5)
+                # Plot Humidity on the bottom chart (ax2)
+                if 'humidity' in avg_data.columns:
+                    y_humidity = timezone_df['humidity'].dropna()
+                    if not y_humidity.empty:
+                        ax2.plot(x[:len(y_humidity)], y_humidity, marker='o', label=timezone, linewidth=1.5)
             else:
                 print(f"\nNo numeric data for {timezone}")
 
-        # Formatting Top Subplot (Celsius)
-        ax1.set_title('Average Temperature Over Time - Celsius')
-        ax1.set_ylabel('Temperature (°C)')
+        index_name = selected_index.replace('temperature_', '').replace('_', ' ').capitalize()
+        unit_label = "°C" if "celsius" in selected_index else "°F"
+
+        # Formatting Top Subplot (Temperature)
+        ax1.set_title(f'Average {index_name} Over Time')
+        ax1.set_ylabel(f'Temperature ({unit_label})')
         ax1.legend()
         ax1.grid(True, linestyle='--', alpha=0.6)
 
-        # Formatting Bottom Subplot (Fahrenheit)
-        ax2.set_title('Average Temperature Over Time - Fahrenheit')
+        # Formatting Bottom Subplot (Humidity)
+        ax2.set_title('Average Humidity Over Time')
         ax2.set_xlabel('Month')
-        ax2.set_ylabel('Temperature (°F)')
+        ax2.set_ylabel('Humidity (%)')
         ax2.legend()
         ax2.grid(True, linestyle='--', alpha=0.6)
 
@@ -106,8 +143,8 @@ def avg_temp_by_country_over_time():
         plt.setp(ax2.xaxis.get_majorticklabels(), rotation=45)
 
         plt.tight_layout()
-        plt.savefig('average_temperature_plot.png')
-        print(f"✅ Plot saved as average_temperature_plot.png for {', '.join(selected_timezones)}")
+        plt.savefig('temperature_and_humidity_plot.png')
+        print(f"✅ Plot saved as temperature_and_humidity_plot.png for {', '.join(selected_timezones)}")
         plt.show()
     else:
         print("\nNo timezones selected.")
