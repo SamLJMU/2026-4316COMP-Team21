@@ -29,8 +29,8 @@ The requirements are:
 - Average Air quality vs Average Wind Speed by country
 - Sunrise and sunset time by country/latitude
 - Daily Maximum UV Index over Time by Country
-- Average Cloud vs Average Humidity by country
-- Average Cloud vs Average Wind Speed by country
+- Humidity vs. Cloud Coverage by Country over Time
+- Cloud Coverage vs. Feels Like Temperature by Country over Time (inverse relation)
 
 # Branches
 
