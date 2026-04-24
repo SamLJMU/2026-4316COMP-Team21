@@ -25,4 +25,4 @@ Questions/Queries to implement:
     Average Air quality vs Average Wind Speed by country
     Sunrise and sunset time by country/latitude
     Average Cloud vs Average Humidity by country
-    Average Cloud vs Average Wind Speed by country
+    Cloud Coverage vs. Feels Like Temperature by Country over Time
