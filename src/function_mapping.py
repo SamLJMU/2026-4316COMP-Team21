@@ -1,4 +1,4 @@
-from visualisations.matthieu.visualisation import air_quality_over_time # might wanna update the name of this function to be more specific to the visualisation it creates
+from visualisations.matthieu.visualisation import air_pollution_relations # might wanna update the name of this function to be more specific to the visualisation it creates
 from visualisations.riccardo.visualisation_riccardo import daylight_hours
 from visualisations.riccardo.visualisation2_riccardo import moon_illumination
 from visualisations.guinness.guinness_vis import air_quality_by_country_over_time
@@ -12,7 +12,7 @@ from visualisations.toprak.toprak_vis2 import cloud_vs_feels_like_temp_over_time
 
 
 function_map = {
-    'matthieu_1': air_quality_over_time,
+    'matthieu_1': air_pollution_relations,
     'riccardo_1': daylight_hours,
     "riccardo_2": moon_illumination,
     'guinness_1': air_quality_by_country_over_time,
