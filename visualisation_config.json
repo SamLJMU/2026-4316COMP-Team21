@@ -34,5 +34,13 @@
     {
         "key": "daniels_2",
         "msg": "Daily Maximum UV Index by Country over Time"
+    },
+    {
+        "key": "toprak_1",
+        "msg": "Humidity vs. Cloud Coverage by Country over Time"
+    },
+    {
+        "key": "toprak_2",
+        "msg": "Cloud Coverage vs. Feels Like Temperature by Country over Time"
     }
 ]
