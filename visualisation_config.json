@@ -43,4 +43,9 @@
         "key": "toprak_2",
         "msg": "Cloud Coverage vs. Feels Like Temperature by Country over Time"
     }
+    ,
+    {
+        "key": "sam_1",
+        "msg": "air pressure and percipitation"
+    }
 ]

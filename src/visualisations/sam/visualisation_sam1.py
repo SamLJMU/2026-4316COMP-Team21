@@ -1,11 +1,11 @@
 from classes.file_io import FileIO
 import matplotlib.pyplot as mpl
 import pandas as pd
-from input import input_country
+from input import input_country, input_timeframe
 
 def air_pressure_and_percipitation():
     
-    df = FileIO.dataset_df[["country", "last_updated_date_time", "pressure_in", "precip_mmW"]]
+    df = FileIO.dataset_df[["country", "last_updated_date_time", "pressure_in", "precip_mm"]]
 
   
    # def input_country():
@@ -58,12 +58,12 @@ def air_pressure_and_percipitation():
     
     # visualise in matplotlib
     fig, ax = mpl.subplots(figsize=(12, 6))
-    ax.plot(df["last_updated_date_time"], df["pressure_in"], label="Air Pressure", marker=".")
-    ax.plot(df["last_updated_date_time"], df["precip_mmW"], label="Precipitation Milimeters", marker=".")
-    ax.fill_between(df["last_updated_date_time"], df["pressure_in"], df["precip_mmW"], alpha=0.2)
+    ax.plot(df.index, df["pressure_in"], label="Air Pressure", marker=".")
+    ax.plot(df.index, df["precip_mm"], label="Precipitation Milimeters", marker=".")
+    ax.fill_between(df["last_updated_date_time"], df["pressure_in"], df["precip_"], alpha=0.2)
     ax.set_title("Pressure to precipitation Like by Month per Country")
     ax.set_xlabel("Date")
-    ax.set_ylabel("precipitation mmW")
+    ax.set_ylabel("precipitation mm")
     ax.legend()
     ax.xaxis.grid(True)
     ax.yaxis.grid(True)
