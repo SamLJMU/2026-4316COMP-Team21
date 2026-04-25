@@ -48,4 +48,9 @@
         "key": "sam_1",
         "msg": "air pressure and percipitation"
     }
+    ,
+    {
+        "key": "sam_2",
+        "msg": "daylight and percipitation"
+    }
 ]
