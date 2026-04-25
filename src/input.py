@@ -46,7 +46,7 @@ def input_country(exclude_list: list = None) -> str:
     if exclude_list is None:
         exclude_list = []
         
-    all_countries = FileIO.dataset_df["country"].unique()
+    all_countries = FileIO.unique_countries
     
     while True:
         user_input = input(ANSIColors.color_str("Enter a country name: ", ANSIColors.BLUE)).strip()
@@ -131,7 +131,7 @@ def input_timezone(exclude_list: list = None) -> str:
     if exclude_list is None:
         exclude_list = []
         
-    all_timezones = FileIO.dataset_df["timezone"].unique()
+    all_timezones = FileIO.unique_timezones
     
     while True:
         user_input = input(ANSIColors.color_str("Enter a timezone: ", ANSIColors.BLUE)).strip()
