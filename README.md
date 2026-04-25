@@ -21,14 +21,16 @@ The requirements are:
 - Temperature change over time country
 - Wind Speed over time by country
 - Precipitation over time by country
-- Temperature by Time Zone
+- Average Temperature vs Average Humidity by Time Zone
 - Weather Condition percentage by country (Sunny, Rainy, etc.)
 - Wind Direction by country + possible relation with temperature
 - Humidity over time by country
 - Relation between Temperature and Feels like Temperature
-- Air quality by country
+- Average Air quality vs Average Wind Speed by country
 - Sunrise and sunset time by country/latitude
 - Daily Maximum UV Index over Time by Country
+- Humidity vs. Cloud Coverage by Country over Time
+- Cloud Coverage vs. Feels Like Temperature by Country over Time (inverse relation)
 
 # Branches
 

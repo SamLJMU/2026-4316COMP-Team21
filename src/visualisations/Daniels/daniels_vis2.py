@@ -47,11 +47,8 @@ def userdata_uv_index():
 
     for i in range(country_number):
         while True:
-            user_country = input_country(
-                prompt=f"Enter Country #{i + 1} out of {country_number}: ",
-                err_msg="Invalid country or country not found in dataset \n"
-            )
-
+            print (f"Enter Country #{i + 1} out of {country_number}: ")
+            user_country = input_country()
             if user_country in selected_countries:
                 print_warning(f"{user_country} has already been input in the country list \n")
             else:

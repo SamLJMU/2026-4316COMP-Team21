@@ -2,6 +2,7 @@ from matplotlib import dates
 import pandas as pd
 import matplotlib.pyplot as plt
 from classes.file_io import FileIO
+from input import input_multiple_timezones 
 
 def avg_temp_by_country_over_time():
     df = FileIO.dataset_df
@@ -76,110 +77,74 @@ def avg_temp_by_country_over_time():
             selected_index = next(idx for idx in available_units if idx.lower() == choice.lower())
             break
         else:
-            print("❌ Invalid choice. Try again.")
+            print("Invalid choice. Try again.")
 
-    print(f"✅ Selected: {selected_index.replace('temperature_', '').replace('_', ' ').capitalize()}")
+    print(f"Selected: {selected_index.replace('temperature_', '').replace('_', ' ').capitalize()}")
 
-    # Get unique timezones
-    available_timezones = sorted([c.strip() for c in df['timezone'].unique() if pd.notna(c)], key=lambda x: x.rsplit('/', 1)[-1])
-    page_size = 10
-    current_page = 0
-    total_pages = (len(available_timezones) + page_size - 1) // page_size
+    print("\n--- Select Timezones ---")
+    selected_timezones = input_multiple_timezones()
 
-    # Pagination loop for timezones
-    selected_timezones = []
-    while True:
-        start = current_page * page_size
-        end = start + page_size
-        page_timezones = available_timezones[start:end]
-
-        if selected_timezones:
-            print(f"\nSelected timezones: {', '.join(selected_timezones)}")
-
-        print(f"\nPage {current_page + 1} of {(len(available_timezones) + page_size - 1) // page_size}:")
-        for i, timezone in enumerate(page_timezones, 1):
-            display_name = timezone.rsplit('/', 1)[-1]
-            print(f"{i}. {display_name}")
-
-        print("\nOptions: 'next', 'prev', 'done', 'help', or pick by page number/timezone name.")
-        choice = input("Your choice: ").strip()
-        choice_lower = choice.lower()
-    
-        if choice_lower == 'help':
-            print("\nEnter 'next'/'prev' to browse pages, 'done' to finish, page number (1-10) to select by position, or timezone name to add/remove from selection.")
-            continue
-        if choice_lower == 'help':
-            print("\nEnter 'next'/'prev' to browse, 'done' to finish, page number (1-10) or timezone name.")
-            continue
-        if choice_lower == 'next':
-            current_page = (current_page + 1) % total_pages
-            continue
-        if choice_lower == 'prev':
-            current_page = (current_page - 1) % total_pages
-            continue
-        if choice_lower == 'done':
-            break
-
-        if choice.isdigit() and 1 <= int(choice) <= len(page_timezones):
-            exact_timezone = page_timezones[int(choice) - 1]
-        elif choice_lower in [c.lower() for c in available_timezones]:
-            exact_timezone = next(c for c in available_timezones if c.lower() == choice_lower)
-        elif choice == '':
-            print("\nInvalid choice. Try again. Please enter a timezone name, page number, or command (next/prev/done/help).")
-            continue
-        else:
-            similar = [c for c in available_timezones if choice_lower in c.lower()]
-            if len(similar) == 1:
-                exact_timezone = similar[0]
-                if exact_timezone in selected_timezones:
-                    selected_timezones.remove(exact_timezone)
-                    print(f"Removed {exact_timezone} (auto-match)")
-                else:
-                    selected_timezones.append(exact_timezone)
-                    print(f"Added {exact_timezone} (auto-match)")
-            else:
-                similar_display = [tz.rsplit('/', 1)[-1] for tz in similar[:10]]
-                print(f"\nInvalid choice. Try again. Similar timezones: {similar_display}")
-            continue
-
-        if exact_timezone in selected_timezones:
-            selected_timezones.remove(exact_timezone)
-            print(f"\nRemoved {exact_timezone}")
-        else:
-            selected_timezones.append(exact_timezone)
-            print(f"\nAdded {exact_timezone}")
-
-    # Convert selected index column to numeric (coerce non-numeric values)
+    # Convert selected temperature and humidity columns to numeric (coerce non-numeric values)
     df[selected_index] = pd.to_numeric(df[selected_index], errors='coerce')
+    if 'humidity' in df.columns:
+        df['humidity'] = pd.to_numeric(df['humidity'], errors='coerce')
 
-    # Calculate average temperature for the date range and selected timezones (group by month)
-    avg_temp = df[df['timezone'].isin(selected_timezones)].groupby(['period', 'timezone'])[selected_index].mean().reset_index()
-    avg_temp['month_start'] = avg_temp['period'].apply(lambda p: p.to_timestamp())
+    # Calculate average temperature and humidity for the date range and selected timezones
+    cols_to_average = [selected_index]
+    if 'humidity' in df.columns:
+        cols_to_average.append('humidity')
 
-    # Now plot average temperature by country for the selected timezones
+    avg_data = df[df['timezone'].isin(selected_timezones)].groupby(['period', 'timezone'])[cols_to_average].mean().reset_index()
+    avg_data['month_start'] = avg_data['period'].apply(lambda p: p.to_timestamp())
+
+    # Now plot average temperature and humidity for the selected timezones
     if selected_timezones:
-        plt.figure(figsize=(12,6))
-        ax = plt.gca()
-        for timezone in avg_temp['timezone'].unique():
-            timezone_df = avg_temp[avg_temp['timezone'] == timezone].dropna(subset=[selected_index])
+        # Create a figure with 2 subplots, shared X-axis
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
+        
+        for timezone in avg_data['timezone'].unique():
+            timezone_df = avg_data[avg_data['timezone'] == timezone]
+            
             if not timezone_df.empty:
                 x = timezone_df['month_start'].dt.to_pydatetime()
-                y = timezone_df[selected_index]
-                ax.plot(x, y, marker='o', label=timezone, linewidth=1.5)
+                
+                # Plot Selected Temperature on the top chart (ax1)
+                y_temp = timezone_df[selected_index].dropna()
+                if not y_temp.empty:
+                    ax1.plot(x[:len(y_temp)], y_temp, marker='o', label=timezone, linewidth=1.5)
+                
+                # Plot Humidity on the bottom chart (ax2)
+                if 'humidity' in avg_data.columns:
+                    y_humidity = timezone_df['humidity'].dropna()
+                    if not y_humidity.empty:
+                        ax2.plot(x[:len(y_humidity)], y_humidity, marker='o', label=timezone, linewidth=1.5)
             else:
-                print(f"\nNo numeric data for {timezone} in {selected_index}")
+                print(f"\nNo numeric data for {timezone}")
 
         index_name = selected_index.replace('temperature_', '').replace('_', ' ').capitalize()
-        ax.set_title(f'{index_name} Over Time - Selected Timezones')
-        ax.set_xlabel('Month')
-        ax.set_ylabel(index_name)
-        ax.legend()
-        ax.xaxis.set_major_locator(dates.AutoDateLocator())
-        ax.xaxis.set_major_formatter(dates.DateFormatter('%Y-%m'))
-        plt.xticks(rotation=45)
+        unit_label = "°C" if "celsius" in selected_index else "°F"
+
+        # Formatting Top Subplot (Temperature)
+        ax1.set_title(f'Average {index_name} Over Time')
+        ax1.set_ylabel(f'Temperature ({unit_label})')
+        ax1.legend()
+        ax1.grid(True, linestyle='--', alpha=0.6)
+
+        # Formatting Bottom Subplot (Humidity)
+        ax2.set_title('Average Humidity Over Time')
+        ax2.set_xlabel('Month')
+        ax2.set_ylabel('Humidity (%)')
+        ax2.legend()
+        ax2.grid(True, linestyle='--', alpha=0.6)
+
+        # Format the shared X-axis dates
+        ax2.xaxis.set_major_locator(dates.AutoDateLocator())
+        ax2.xaxis.set_major_formatter(dates.DateFormatter('%Y-%m'))
+        plt.setp(ax2.xaxis.get_majorticklabels(), rotation=45)
+
         plt.tight_layout()
-        plt.savefig('average_temperature_plot.png')
-        print(f"✅ Plot saved as average_temperature_plot.png for {', '.join(selected_timezones)} - {index_name}")
+        plt.savefig('temperature_and_humidity_plot.png')
+        print(f"Plot saved as temperature_and_humidity_plot.png for {', '.join(selected_timezones)}")
         plt.show()
     else:
         print("\nNo timezones selected.")

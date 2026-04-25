@@ -9,15 +9,15 @@
     },
     {
         "key": "matthieu_1",
-        "msg": "Air Quality by Temperature over Time"
+        "msg": "Air Quality in Relation to Temperature and Wind Speed"
     },
     {
         "key": "guinness_1",
-        "msg": "Air Quality by Country over Time"
+        "msg": "Average Air Quality vs. Average Wind Speed by Country over Time"
     },
     {
         "key": "joseph_1",
-        "msg": "Average Temperature by Timezone over Time"
+        "msg": "Average Temperature vs. Average Humidity by Timezone over Time"
     },
     {
         "key": "chukwunonso_1",
@@ -34,5 +34,13 @@
     {
         "key": "daniels_2",
         "msg": "Daily Maximum UV Index by Country over Time"
+    },
+    {
+        "key": "toprak_1",
+        "msg": "Humidity vs. Cloud Coverage by Country over Time"
+    },
+    {
+        "key": "toprak_2",
+        "msg": "Cloud Coverage vs. Feels Like Temperature by Country over Time"
     }
 ]
