@@ -26,21 +26,25 @@ def air_pressure_and_percipitation():
    
     df_grouped.index = df_grouped.index.to_timestamp()
 
-    # matplotlib visulisation
+    # matplotlib visualisation
     fig, ax1 = mpl.subplots(figsize=(12, 6))
     ax1.plot(df_grouped.index, df_grouped["pressure_in"], color='tab:red', label="Air Pressure", marker=".")
     ax1.set_xlabel("Date")
     ax1.set_ylabel("Air Pressure (inHg)", color='tab:red')
     ax1.tick_params(axis='y', labelcolor='tab:red')
     ax1.xaxis.grid(True)
+    
     ax1.yaxis.grid(True)
     ax2 = ax1.twinx()  
     ax2.plot(df_grouped.index, df_grouped["precip_mm"], color='tab:blue', label="Precipitation (mm)", marker=".")
     ax2.set_ylabel("Precipitation (mm)", color='tab:blue')
     ax2.tick_params(axis='y', labelcolor='tab:blue')
     ax2.fill_between(df_grouped.index, df_grouped["precip_mm"], 0, color='tab:blue', alpha=0.1)
+    
+    
     ax1.set_title(f"Air Pressure and Precipitation in {country} ({timeframe})")
     fig.legend(loc="upper right", bbox_to_anchor=(1,1), bbox_transform=ax1.transAxes)
+    
     fig.autofmt_xdate()
     mpl.tight_layout()
     mpl.show()
