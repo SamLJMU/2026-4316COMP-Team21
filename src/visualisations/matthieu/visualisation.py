@@ -12,9 +12,10 @@ from classes.graph_labels import GraphLabels
 
 def air_pollution_relations():
     # Filter Input
-    pollution_type = input_pollution_type("Pollution type: ")
     print_line()
+    pollution_type = input_pollution_type("Pollution type: ")
 
+    print_line()
     country = input_country()
 
     print_line()
@@ -59,9 +60,6 @@ def air_pollution_relations():
     
     # Display
     mpl.show()
-
-def air_quality_to_gust():
-    pass
 
 def plot_scatter(ax: mpl.Axes, x, y, scatter_color = "g", line_color = "r", labels: GraphLabels | None = None ):
 

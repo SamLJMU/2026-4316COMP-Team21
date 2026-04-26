@@ -1,4 +1,4 @@
-from utility.console_print import print_info, print_warning, print_line
+from utility.console_print import print_info, print_warning, print_line, print_success
 from classes.constants import ANSIColors, TimeframesEnum
 from pandas import Period, to_datetime
 from datetime import date
@@ -51,14 +51,14 @@ def input_country(exclude_list: list = None) -> str:
     while True:
         user_input = input(ANSIColors.color_str("Enter a country name: ", ANSIColors.BLUE)).strip()
         
-        matches = [c for c in all_countries if user_input.upper() in str(c).upper() and c not in exclude_list]
+        matches = [c for c in all_countries if user_input.upper() in c and c not in exclude_list]
         
         if len(matches) == 1:
-            print(f"Selected: {matches[0]}")
+            print_success(f"Selected: {matches[0]}")
             return matches[0]
         
         elif len(matches) > 1:
-            print("Did you mean one of these?")
+            print_info("Did you mean one of these?")
             for country in matches:
                 print(f"  - {country}")
         
