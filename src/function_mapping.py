@@ -9,6 +9,8 @@ from visualisations.Daniels.daniels_vis import userdata_wind_speed
 from visualisations.Daniels.daniels_vis2 import userdata_uv_index
 from visualisations.toprak.toprak_vis import humidity_vs_cloud_over_time
 from visualisations.toprak.toprak_vis2 import cloud_vs_feels_like_temp_over_time
+from visualisations.sam.visualisation_sam1 import air_pressure_and_percipitation
+from visualisations.sam.visualisation_sam2 import daylight_and_percipitation
 
 
 function_map = {
@@ -22,5 +24,7 @@ function_map = {
     'daniels_1' : userdata_wind_speed,
     'daniels_2' : userdata_uv_index,
     'toprak_1' : humidity_vs_cloud_over_time,
-    'toprak_2' : cloud_vs_feels_like_temp_over_time
+    'toprak_2' : cloud_vs_feels_like_temp_over_time,
+    'sam_1': air_pressure_and_percipitation,
+    'sam_2': daylight_and_percipitation
 }
