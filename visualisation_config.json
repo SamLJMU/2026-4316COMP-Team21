@@ -10,13 +10,16 @@
     {
         "key": "matthieu_1",
         "msg": "Air Quality in Relation to Temperature and Wind Speed"
+        "msg": "Air Quality in Relation to Temperature and Wind Speed"
     },
     {
         "key": "guinness_1",
         "msg": "Average Air Quality vs. Average Wind Speed by Country over Time"
+        "msg": "Average Air Quality vs. Average Wind Speed by Country over Time"
     },
     {
         "key": "joseph_1",
+        "msg": "Average Temperature vs. Average Humidity by Timezone over Time"
         "msg": "Average Temperature vs. Average Humidity by Timezone over Time"
     },
     {
@@ -42,5 +45,15 @@
     {
         "key": "toprak_2",
         "msg": "Cloud Coverage vs. Feels Like Temperature by Country over Time"
+    }
+    ,
+    {
+        "key": "sam_1",
+        "msg": "air pressure and percipitation"
+    }
+    ,
+    {
+        "key": "sam_2",
+        "msg": "daylight and percipitation"
     }
 ]
