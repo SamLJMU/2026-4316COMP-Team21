@@ -15,6 +15,8 @@ in order to gain useful insights into weather patterns across the globe.
 
 - Select another option, until you want to exit by entering the number associated with the `Exit` option.
 
+> For my visualisation (Matthieu Gaudet), run the 3rd Option `Air Quality in Relation to Temperature and Wind Speed`
+
 # Requirements
 
 The requirements are:
