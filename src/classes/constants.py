@@ -1,16 +1,5 @@
 from enum import Enum
 
-
-class MenuOptions:
-    EXIT = 0
-    DAYLIGHT_HOURS = 1
-    AIR_QUALITY = 2
-    AIR_QUALITY_BY_COUNTRY = 3
-    AVG_TEMP_BY_COUNTRY = 4
-    TEMP_TO_FEELS_LIKE = 5
-    WIND_TO_GUST = 6
-
-
 class ANSIColors:
     BLUE = "\033[94m"
     CYAN = "\033[96m"
