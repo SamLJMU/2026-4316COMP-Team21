@@ -24,11 +24,13 @@ def air_pollution_relations():
     # Get dataset
     temperature_column = "temperature_celsius"
     wind_speed_column = "wind_mph"
-    df = FileIO.dataset_df[["country", "last_updated_date_time", pollution_type, temperature_column, wind_speed_column]]
+    last_updated_column = "last_updated_date_time"
+    country_column = "country"
+    df = FileIO.dataset_df[[country_column, last_updated_column, pollution_type, temperature_column, wind_speed_column]]
 
     # Process data per filter
-    df = df[df["country"] == country]
-    df = df.loc[(df["last_updated_date_time"] >= timeframe[0]) & (df["last_updated_date_time"] <= timeframe[1])]
+    df = df[df[country_column] == country]
+    df = df.loc[(df[last_updated_column] >= timeframe[0]) & (df[last_updated_column] <= timeframe[1])]
 
     # Visualise via matplotlib
     fig, (ax, ax_) = mpl.subplots(2)
