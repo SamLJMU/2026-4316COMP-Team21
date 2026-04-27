@@ -8,16 +8,15 @@ Note: Reading the markdown version of this README file is advised for better str
 How to run the program
 ======================
 
-   Run the main.py file.
+1. Run the main.py file.
     
-   Select an option from the menu.
+2. Select an option from the menu.
+ 
+3. Input the information requested
     
-   Input the information requested
+4. Once a visualisation opens, you can close it and the main menu will re-appear.
     
-   Once a visualisation opens, you can close it and the main menu will re-appear.
-    
-   Select another option, until you want to exit by entering the number associated with the Exit option.
-    
+5. Select another option, until you want to exit by entering the number associated with the Exit option.
 
 Requirements
 ============
