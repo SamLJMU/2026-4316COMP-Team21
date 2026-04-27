@@ -28,9 +28,8 @@ def daylight_and_percipitation():
 
     df_grouped.index = df_grouped.index.to_timestamp()
 
-    fig, ax1 = mpl.subplots(figsize=(12, 6))
-    
     # matplotlib visualisation
+    fig, ax1 = mpl.subplots(figsize=(12, 6))
     ax1.plot(df_grouped.index, df_grouped["daylight_hours"], color='tab:orange', label="Daylight Hours", marker=".")
     ax1.set_xlabel("Date")
     ax1.set_ylabel("Daylight (Hours)", color='tab:orange')
