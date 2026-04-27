@@ -3,6 +3,18 @@
 The application should allow the user to visualise data as graphs and filter information
 in order to gain useful insights into weather patterns across the globe.
 
+# How to run the program
+
+- Run the `main.py` file.
+
+- Select an option from the menu.
+
+- Input the information requested
+
+- Once a visualisation opens, you can close it and the main menu will re-appear.
+
+- Select another option, until you want to exit by entering the number associated with the `Exit` option.
+
 # Requirements
 
 The requirements are:
