@@ -8,15 +8,15 @@ Note: Reading the markdown version of this README file is advised for better str
 How to run the program
 ======================
 
-   Run the main.py file.
+1. Run the main.py file.
     
-   Select an option from the menu.
+2. Select an option from the menu.
     
-   Input the information requested
+3. Input the information requested
     
-   Once a visualisation opens, you can close it and the main menu will re-appear.
+4. Once a visualisation opens, you can close it and the main menu will re-appear.
     
-   Select another option, until you want to exit by entering the number associated with the Exit option.
+5. Select another option, until you want to exit by entering the number associated with the Exit option.
     
 > For my visualisation (Matthieu Gaudet), run the 3rd Option `Air Quality in Relation to Temperature and Wind Speed`
 
