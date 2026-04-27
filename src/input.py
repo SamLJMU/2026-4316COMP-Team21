@@ -5,7 +5,6 @@ from datetime import date
 from utility.general import (
     get_year_min_and_max,
     get_min_and_max_dates,
-    get_countries_list,
 )
 from classes.file_io import FileIO
 

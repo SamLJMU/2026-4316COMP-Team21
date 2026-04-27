@@ -19,8 +19,3 @@ def get_min_and_max_dates() -> tuple[date, date]:
     date_col = "last_updated_date_time"
     df = FileIO.dataset_df[[date_col]]
     return (df[date_col].min().date(), df[date_col].max().date())
-
-
-def get_countries_list():
-    df = FileIO.dataset_df[["country"]]
-    return df["country"].to_list()
